@@ -1,9 +1,16 @@
+import Banner from '@/Components/Banner'
+import Community from '@/Components/Community'
+import Contributers from '@/Components/Contributers'
+import Button from '@/Utility_Component/Button'
+import ContributionCard from '@/Utility_Component/ContributionCard'
 import Image from 'next/image'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-   
-    </main>
+    <div>
+      <Banner />
+      <Community />
+      <Contributers />
+    </div>
   )
 }
