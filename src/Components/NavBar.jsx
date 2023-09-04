@@ -164,7 +164,7 @@ const SigninButton = () => {
     background-color: #181717;
     outline: 3px #181717 solid;
     outline-offset: -3px;
-    border-radius: 5px;
+    border-radius: 13px;
     border: none;
     cursor: pointer;
     transition: 400ms;
