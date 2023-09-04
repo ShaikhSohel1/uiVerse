@@ -1,121 +1,120 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
+import '../Style/PostCard.css'
 
 export default function PostCard() {
-  const htmlCode = `<button alt="tony stark">
-  <i>t</i>
-  <i>o</i>
-  <i>n</i>
-  <i>y</i>
-  <i>&nbsp;</i>
-  <i>s</i>
-  <i>t</i>
-  <i>a</i>
-  <i>r</i>
-  <i>k</i>
-</button>`;
+  const [htmlCode, setHtmlCode] = useState(`<div class="pyramid-loader">
+  <div class="wrapper">
+    <span class="side side1"></span>
+    <span class="side side2"></span>
+    <span class="side side3"></span>
+    <span class="side side4"></span>
+    <span class="shadow"></span>
+  </div>
+</div>
+`);
+  const [cssCode, setCssCode] = useState(`
+  .pyramid-loader {
+    position: relative;
+    width: 300px;
+    height: 150px;
+    display: block;
+    transform-style: preserve-3d;
+    transform: rotateX(-20deg);
+  }
+  
+  .wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    animation: spin 4s linear infinite;
+  }
+  
+  @keyframes spin {
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+  
+  .pyramid-loader .wrapper .side {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(to bottom right, #FFA500, #FF4500);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    transform-origin: center top;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+  
+  .pyramid-loader .wrapper .side1 {
+    transform: rotateZ(-30deg) rotateY(90deg);
+    background: linear-gradient(to bottom right, #FF4500, #FFA500);
+  }
+  
+  .pyramid-loader .wrapper .side2 {
+    transform: rotateZ(30deg) rotateY(90deg);
+    background: linear-gradient(to bottom right, #FFA500, #FF4500);
+  }
+  
+  .pyramid-loader .wrapper .side3 {
+    transform: rotateX(30deg);
+    background: linear-gradient(to bottom right, #FFA500, #FF4500);
+  }
+  
+  .pyramid-loader .wrapper .side4 {
+    transform: rotateX(-30deg);
+    background: linear-gradient(to bottom right, #FF4500, #FFA500);
+  }
+  
+  .pyramid-loader .wrapper .shadow {
+    width: 60px;
+    height: 60px;
+    background: #FF8C00;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    transform: rotateX(90deg) translateZ(-40px);
+    filter: blur(12px);
+  }
+  `);
+  const [previewCode, setPreviewCode] = useState('');
 
-const cssCode = `
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  position: relative;
-  padding: 0 20px;
-  font-size: 18px;
-  text-transform: uppercase;
-  border: 0;
-  box-shadow: hsl(210deg 87% 36%) 0px 7px 0px 0px;
-  background-color: hsl(210deg 100% 44%);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: 31ms cubic-bezier(.5, .7, .4, 1);
- }
- 
- button:before {
-  content: attr(alt);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  inset: 0;
-  font-size: 15px;
-  font-weight: bold;
-  color: white;
-  letter-spacing: 4px;
-  opacity: 1;
- }
- 
- button:active {
-  box-shadow: none;
-  transform: translateY(7px);
-  transition: 35ms cubic-bezier(.5, .7, .4, 1);
- }
- 
- button:hover:before {
-  transition: all .0s;
-  transform: translateY(100%);
-  opacity: 0;
- }
- 
- button i {
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-  letter-spacing: 4px;
-  font-style: normal;
-  transition: all 2s ease;
-  transform: translateY(-20px);
-  opacity: 0;
- }
- 
- button:hover i {
-  transition: all .2s ease;
-  transform: translateY(0px);
-  opacity: 1;
- }
- 
- button:hover i:nth-child(1) {
-  transition-delay: 0.045s;
- }
- 
- button:hover i:nth-child(2) {
-  transition-delay: calc(0.045s * 3);
- }
- 
- button:hover i:nth-child(3) {
-  transition-delay: calc(0.045s * 4);
- }
- 
- button:hover i:nth-child(4) {
-  transition-delay: calc(0.045s * 5);
- }
- 
- button:hover i:nth-child(6) {
-  transition-delay: calc(0.045s * 6);
- }
- 
- button:hover i:nth-child(7) {
-  transition-delay: calc(0.045s * 7);
- }
- 
- button:hover i:nth-child(8) {
-  transition-delay: calc(0.045s * 8);
- }
- 
- button:hover i:nth-child(9) {
-  transition-delay: calc(0.045s * 9);
- }
- 
- button:hover i:nth-child(10) {
-  transition-delay: calc(0.045s * 10);
- }`
+  useEffect(() => {
+    // Combine HTML and CSS for live preview
+    setPreviewCode(`
+      <style>
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+        ${cssCode}
+      </style>
+      ${htmlCode}`);
+  }, [htmlCode, cssCode]);
 
+  const handleHtmlChange = (event) => {
+    setHtmlCode(event.target.value);
+  };
+
+  const handleCssChange = (event) => {
+    setCssCode(event.target.value);
+  };
 
   return (
     <div>
       <div class="container">
-	<article class="card">
+	<div class="card">
 		<a class="card__link" href="#">
 		
 			
@@ -124,25 +123,29 @@ button {
 			</div>
 
 			
-			<div class="card__media">
+			<div class="flex items-center justify-center place-content-center self-center">
 				{/* live preview */}
-        <div dangerouslySetInnerHTML={{ __html: htmlCode }}></div>
+        <iframe
+          title="Live Preview"
+          srcDoc={previewCode}
+          width="100%"
+          height="100%"
+          className='live-preview-container'
+        ></iframe>
 			</div>
 
 			
 			<div class="card__header">
 				<p class="card__header-title">Title of Card</p>
 				<p class="card__header-meta">Subtitle</p>
-				<div class="card__header-icon">
-					{/* Likes Button */}
-				</div>
+				{/* <div class="card__header-icon">
+					
+				</div> */}
 			</div>
 			
 		</a>
-	</article>
+	</div>
 </div>
-{/* Add a style tag to inject the CSS */}
-<style>{cssCode}</style>
     </div>
   )
 }
