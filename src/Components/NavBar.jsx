@@ -5,6 +5,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Button from '@/Utility_Component/Button'
 import { signIn, useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
+import Logo from '../../public/uiVerseLogo.png'
+import Image from 'next/image'
 
 
 const navigation = [
@@ -41,9 +43,11 @@ export default function NavBar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="h-7 w-auto mx-7 mt-2 hidden lg:flex md:flex"
-                    src="https://uiverse.io/build/_assets/logo-OR7QQX33.svg"
+                  <Image
+                    className="h-9 w-auto mx-7 mt-2 hidden lg:flex md:flex"
+                    src={Logo}
+                    width="30px"
+                    height="20px"
                     alt="Your Company"
                   />
                 </div>
