@@ -1,4 +1,4 @@
-@keyframes fadeInScale {
+/* @keyframes fadeInScale {
     0% {
       opacity: 0;
       transform: scale(0) translateY(50%);
@@ -96,9 +96,11 @@
     opacity: 1;
     transform: translateX(0);
   }
-
+*/
   .live-preview-container {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+    min-height: 40vh;
+    max-height: 40vh;
+  } 

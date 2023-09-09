@@ -6,12 +6,14 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div>
-    <div className='grid grid-cols-1 md:grid-cols-2 bg-slate-700'>
+    <div className='flex flex-col'>
+
       <ProfileInfo />
-      <Issue />
-    </div>
+
+  
+    <Issue />
     <UserPostSection />
+ 
     </div>
   )
 }

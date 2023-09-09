@@ -6,7 +6,7 @@ export default function ContributionCard() {
     <div className="flex justify-end px-4 pt-4">
     </div>
     <div className="flex flex-col items-center">
-        <img className="w-10 h-10  mb-3 rounded-full shadow-lg" src="" alt="Bonnie image"/>
+        <img className="w-10 h-10  mb-3 rounded-full shadow-lg" src="https://avatars.githubusercontent.com/u/87869024?v=4" alt="Bonnie image"/>
         <h5 className="mb-1 text-xl font-medium  text-white"><span>#1</span> Bonnie Green</h5>
         <span className="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
     </div>
