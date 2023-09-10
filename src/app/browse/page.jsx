@@ -6,7 +6,7 @@ import React from 'react'
 export default function page() {
   return (
   <div className='grid grid-cols-1 lg:grid-cols-7 h-full'>
-    <div className='relative'>
+    <div className='w-full'>
     <SideBar />
     </div>
     <div className='col-span-6'>
