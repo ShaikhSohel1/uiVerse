@@ -234,16 +234,28 @@ export default function PostCard() {
     setCssCode(event.target.value);
   };
 
+  const [onHover, setonHover] = useState(false)
+
   return (
   
-<div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 min-h-[25rem] max-h-[50rem]">
+<div class="w-full rounded-lg shadow bg-[#2a303a] group/item "
+>
+
 <iframe
     title="Live Preview"
     srcDoc={previewCode}
     width="100%"
     height="100%"
-    // className='live-preview-container min-h-[40vh] m'
+    className='min-h-[25rem] max-h-[50rem]'
   ></iframe>
+  {/* {onHover ? (  */}
+  <span className="relative -inset-y-10 invisible group/edit group-hover/item:visible left-28">
+    <center><span className='bg-violet-500 p-3 rounded-lg text-white'>{"</>"}Get Code</span></center>
+        
+      </span>
+     
+      {/* ) : null} */}
+    
 </div>
 
   )

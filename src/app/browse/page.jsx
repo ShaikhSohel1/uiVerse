@@ -1,8 +1,19 @@
+import Browse from '@/Components/Browse'
 import CustomEditor from '@/Components/Editor'
+import SideBar from '@/Components/SideBar'
 import React from 'react'
 
 export default function page() {
   return (
-    <CustomEditor  />
+  <div className='grid grid-cols-1 lg:grid-cols-7 h-full'>
+    <div className='relative'>
+    <SideBar />
+    </div>
+    <div className='col-span-6'>
+    <Browse />
+    </div>
+
+
+  </div>
   )
 }

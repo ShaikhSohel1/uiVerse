@@ -1,10 +1,11 @@
 import React from 'react'
+import PostCard from './PostCard'
 
 export default function IssueCard() {
   return (
     <div className='flex flex-col bg-[#2a303a] rounded-lg lg:flex-row'>
      
-<div class="w-full max-w-sm border-none">
+<div class="w-full max-w-sm border-none flex items-center justify-center">
     <div class="flex justify-end px-4 pt-4">
   
     </div>
@@ -18,8 +19,8 @@ export default function IssueCard() {
         </div>
     </div>
 </div>
-<div class="w-full max-w-sm">
-   sdffffff
+<div class="w-full h-full">
+   <PostCard />
 </div>
 
     </div>

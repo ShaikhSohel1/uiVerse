@@ -12,6 +12,7 @@ import Image from 'next/image'
 const navigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'Browse', href: '/browse', current: false },
+  { name: 'Editor', href: '/Editor', current: false },
 ]
 
 function classNames(...classes) {
