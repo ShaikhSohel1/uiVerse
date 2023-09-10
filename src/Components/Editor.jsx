@@ -1,8 +1,14 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
+import SavePostModel from '@/Utility_Component/SavePostModel';
+import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore"; 
+import {db} from '../../firebase/firebase'
+import { useSession } from 'next-auth/react';
+import elements from '@/Utility_Component/ElementData';
 
 export default function CustomEditor() {
+  const {data: session, status}= useSession();
   const [htmlCode, setHtmlCode] = useState(`<div class="parent">
   <div class="card">
       <div class="logo">
@@ -285,6 +291,7 @@ export default function CustomEditor() {
   }`);
   const [previewCode, setPreviewCode] = useState('');
   const [activeTab, setActiveTab] = useState('html'); // To keep track of the active tab
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     // Combine HTML and CSS for live preview
@@ -306,8 +313,25 @@ export default function CustomEditor() {
     setActiveTab(tab);
   };
 
+  const [elementType, setelementType] = useState('')
+  const [PostTitle, setPostTitle] = useState('')
+  const onSave = async () => {
+    const docRef = await addDoc(collection(db, "Posts"),{
+      UserEmail: session.user?.email,
+      UserImage:session.user?.image,
+      userName: session.user?.name,
+      HtmlCode: htmlCode,
+      CssCode: cssCode,
+      Element_Type: elementType,
+      PostTitle: PostTitle,
+      timestamp: serverTimestamp()
+    }).then(data => console.log("success..."));
+    // console.log("sdf", elementType, PostTitle)
+  }
   return (
+    <>
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 m-4">
+     
       <div className="p-6 h-[80vh] placeholder-white placeholder-opacity-50 xs:rounded-t-[12px] lg:rounded-l-[12px] resize-none focus:outline-none focus:border-transparent bg-[#212121] text-white">
         <iframe
           title="Live Preview"
@@ -320,26 +344,28 @@ export default function CustomEditor() {
       <div className="h-[80vh] placeholder-white placeholder-opacity-50 xs:rounded-b-[12px] lg:rounded-r-[12px] resize-none focus:outline-none focus:border-transparent bg-[#1e1e1e] text-white">
         <div className="flex w-full bg-[#181515] m-0 px-9 gap-10 cursor-default">
           <div
-            className={`p-3 cursor-pointer px-10 rounded-t-xl ${
+            className={`p-3 cursor-pointer px-10 rounded-t-xl flex ${
               activeTab === 'html' ? 'bg-[#1e1e1e]' : ''
             }`}
             onClick={() => handleTabClick('html')}
           >
+            <img src='https://img.icons8.com/color/48/000000/html-5--v1.png' className='w-7 h-7' />
             HTML
           </div>
           <div
-            className={`p-3 px-10 cursor-pointer rounded-t-xl ${
+            className={`p-3 px-10 cursor-pointer rounded-t-xl flex ${
               activeTab === 'css' ? 'bg-[#1e1e1e]' : ''
             }`}
             onClick={() => handleTabClick('css')}
           >
+            <img src='https://img.icons8.com/color/48/000000/css3.png' className='w-7 h-7' />
             CSS
           </div>
         </div>
         <div>
           {activeTab === 'html' ? (
             <Editor
-              height="74.5vh"
+              height="74.1vh"
               language="html"
               value={htmlCode}
               theme="vs-dark"
@@ -353,7 +379,7 @@ export default function CustomEditor() {
             />
           ) : (
             <Editor
-              height="74.5vh"
+              height="74.1vh"
               language="css"
               value={cssCode}
               theme="vs-dark"
@@ -367,7 +393,20 @@ export default function CustomEditor() {
             />
           )}
         </div>
+        
       </div>
+     
     </div>
+     <div className='flex justify-between'>
+     <div></div>
+   <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
+   onClick={() => setOpen(true)}
+   >Save</button>
+     
+     {open ? (
+      <SavePostModel open={open} setOpen={setOpen} setelementType={setelementType} setPostTitle={setPostTitle} onSave={onSave}/>
+     ) : null}
+   </div>
+   </>
   );
 }
