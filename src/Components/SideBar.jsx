@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import elements from '@/Utility_Component/ElementData';
 
-export default function SideBar() {
+export default function SideBar({setSearchElement}) {
   const [isFixed, setIsFixed] = useState(false);
 
   useEffect(() => {
@@ -27,6 +27,10 @@ export default function SideBar() {
   const sidebarClasses = isFixed
     ? 'fixed top-6 w-[10em] xl:w-[12em] h-screen overflow-y-auto hidden lg:block '
     : 'hidden lg:block border-gray-700';
+const getvalue = (i) => {
+  // setSearchElement(i)
+  setSearchElement(i.ElementName)
+}
 
   return (
     <div>
@@ -38,12 +42,13 @@ export default function SideBar() {
           <ul className="space-y-2 font-medium ml-6">
             {elements.map((i) => (
               <li key={i}>
-                <a
-                  href=""
-                  className="flex items-center p-2 rounded-lg text-white hover:text-slate-800 hover:bg-gray-100 group"
+                <div
+                  
+                  className="flex items-center p-2 rounded-lg text-white hover:text-slate-800 hover:bg-gray-100 group cursor-default"
+                  onClick={(key) => getvalue(i)}
                 >
                   <span>{i.ElementName}</span>
-                </a>
+                </div>
               </li>
             ))}
           </ul>

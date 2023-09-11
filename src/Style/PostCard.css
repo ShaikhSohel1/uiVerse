@@ -97,10 +97,10 @@
     transform: translateX(0);
   }
 */
-  .live-preview-container {
+  /* .live-preview-container {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 40vh;
     max-height: 40vh;
-  } 
+  }  */

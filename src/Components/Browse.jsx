@@ -1,34 +1,59 @@
 "use client"
 import DropDownButton from '@/Utility_Component/DropDownButton'
 import PostCard from '@/Utility_Component/PostCard'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import elements from '@/Utility_Component/ElementData'
+import { addDoc, collection, doc, getDocs, serverTimestamp, setDoc } from "firebase/firestore"; 
+import {db} from '../../firebase/firebase'
 
-export default function Browse() {
+export default function Browse({element, setSearchElement}) {
+  console.log(element)
+  const [post, setpost] = useState([]);
+  const [filteredPost, setFilteredPost] = useState([]);
+  // const [dropDownElement, setdropDownElement] = useState("All")
+
+
+
+  const getPosts = async () => {
+    const docRef = await getDocs(collection(db, "Posts")).then(
+      (querySnapshot) => {
+        const newData = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+       setpost(newData)
+        console.log(newData);
+      }
+    );
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  // filter data according to side bar selection
+  useEffect(() => {
+    if(element == "All")
+    {
+      setFilteredPost(post)
+    }
+    else{
+      const filteredData = post.filter((item) => item.Element_Type === element);
+      setFilteredPost(filteredData); // Update the filtered data state
+    }
+    
+  }, [element, post]); // Include 'post' as a dependency
+
   return (
     <div class="text-center p-10">
       <div className='flex justify-between'>
-    <h1 class="font-bold text-4xl mb-4 text-white cursor-default">Browse</h1>
-    <DropDownButton elements={elements} />
+    <h1 class="font-bold text-4xl mb-4 text-white cursor-default">{element}</h1>
+    <DropDownButton elements={elements} setSearchElement={setSearchElement}/>
       </div>
-    <div className='grid grid-cols-1 mt-10 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-      <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
-    <PostCard />
+    <div className='grid grid-cols-1 mt-10 gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'>
+    {filteredPost.map((element) => (
+          <PostCard element={element} key={element.id} /> // Add a unique key prop
+        ))}
     </div>
 
     

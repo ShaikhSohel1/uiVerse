@@ -6,8 +6,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function DropDownButton({elements}) {
-    console.log(elements)
+export default function DropDownButton({elements, setSearchElement}) {
+  const getvalue = (i) => {
+    setSearchElement(i.ElementName)
+  }
+
   return (
     <Menu as="div" className="relative inline-block text-left lg:hidden">
       <div>
@@ -31,15 +34,12 @@ export default function DropDownButton({elements}) {
             {elements.map((i) => (
       <Menu.Item>
       {({ active }) => (
-        <a
-          href="#"
-          className={classNames(
-            active ? 'bg-gray-100 text-gray-900' : 'text-slate-100',
-            'block px-4 py-2 text-sm text-slate-100'
-          )}
+        <div
+          className="block px-4 py-2 text-sm text-slate-100 hover:bg-slate-700 cursor-pointer"
+          onClick={(key) => getvalue(i)}
         >
           {i.ElementName}
-        </a>
+        </div>
       )}
     </Menu.Item>
             ))}
