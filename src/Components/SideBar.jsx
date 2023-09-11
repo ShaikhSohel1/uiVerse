@@ -1,10 +1,13 @@
-"use client"
+// "use client"
 
 import React, { useEffect, useState } from 'react';
 import elements from '@/Utility_Component/ElementData';
+import { useRouter } from 'next/navigation';
 
 export default function SideBar({setSearchElement}) {
   const [isFixed, setIsFixed] = useState(false);
+
+  const router = useRouter()
 
   useEffect(() => {
     // Add an event listener to track scroll position
@@ -38,6 +41,7 @@ const getvalue = (i) => {
         id="logo-sidebar"
         className={sidebarClasses}
       >
+        
         <div className="w-full">
           <ul className="space-y-2 font-medium ml-6">
             {elements.map((i) => (
@@ -45,7 +49,7 @@ const getvalue = (i) => {
                 <div
                   
                   className="flex items-center p-2 rounded-lg text-white hover:text-slate-800 hover:bg-gray-100 group cursor-default"
-                  onClick={(key) => getvalue(i)}
+                  onClick={() => router.push(`/browse/${i.ElementName}`)}
                 >
                   <span>{i.ElementName}</span>
                 </div>

@@ -3,7 +3,7 @@ import CustomEditor from '@/Components/Editor';
 import SideBar from '@/Components/SideBar';
 import Button from '@/Utility_Component/Button';
 import DropDownButton from '@/Utility_Component/DropDownButton';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import React from 'react'
 import elements from '@/Utility_Component/ElementData';
 import {AiOutlineArrowLeft} from 'react-icons/ai'
@@ -28,7 +28,7 @@ export default function page() {
      </div>
      </div>
      </>
-    ) : null}
+    ) : signIn()}
     </div>
    
   )

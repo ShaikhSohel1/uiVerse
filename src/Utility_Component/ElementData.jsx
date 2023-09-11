@@ -21,7 +21,7 @@ const elements = [
       ElementName: "Input",
     },
     {
-      ElementName: "Radio Buttons",
+      ElementName: "RadioButtons",
     },
     {
       ElementName: "Forms",
