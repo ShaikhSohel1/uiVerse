@@ -89,8 +89,8 @@ export default function Browse({element}) {
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
     </svg>
   </span>
-  <span class="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">Button Previous</span>
-</a>
+  <span class="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">Button Previou</span>
+</a>   
       </div>
 
 
