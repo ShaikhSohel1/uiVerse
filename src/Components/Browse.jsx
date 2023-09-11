@@ -39,13 +39,15 @@ export default function Browse({element}) {
 
   // filter data according to side bar selection
   useEffect(() => {
-    let startIndex = (currentPage) * cardsPerPage;
+    let startIndex = (currentPage -1) * cardsPerPage;
     let endIndex = startIndex + cardsPerPage;
 
     if (element === 'All') {
       setFilteredPost(post.slice(startIndex, endIndex));
-    } else {
-      const filteredData = post.filter((item) => item.Element_Type === element);
+    } else  {
+      const filteredData = post.filter(
+        (item) => item.Element_Type === element
+      );
       setFilteredPost(filteredData.slice(startIndex, endIndex));
     }
   }, [element, post, currentPage]);
