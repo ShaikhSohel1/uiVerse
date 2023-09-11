@@ -1,12 +1,14 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { useRouter } from 'next/navigation'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function DropDownButton({elements, setSearchElement}) {
+export default function DropDownButton({elements}) {
+  const router =useRouter();
   const getvalue = (i) => {
     setSearchElement(i.ElementName)
   }
@@ -36,7 +38,7 @@ export default function DropDownButton({elements, setSearchElement}) {
       {({ active }) => (
         <div
           className="block px-4 py-2 text-sm text-slate-100 hover:bg-slate-700 cursor-pointer"
-          onClick={(key) => getvalue(i)}
+          onClick={() => router.push(`/browse/${i.ElementName}`)}
         >
           {i.ElementName}
         </div>

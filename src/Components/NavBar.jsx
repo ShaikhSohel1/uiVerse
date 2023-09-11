@@ -7,11 +7,12 @@ import { signIn, useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import Logo from '../../public/uiVerseLogo.png'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
-  { name: 'Browse', href: '/browse', current: false },
+  // { name: 'Browse', href: '/browse', current: false },
   { name: 'Editor', href: '/editor', current: false },
 ]
 
@@ -20,7 +21,7 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
-
+ const router = useRouter();
   const {data: session, status}= useSession();
 
 
@@ -67,7 +68,16 @@ export default function NavBar() {
                         {item.name}
                       </Link>
                     ))}
-
+<div
+                   
+                        className={classNames(
+                          false ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'rounded-md px-3 py-2 text-lg font-medium cursor-pointer'
+                        )}
+                        onClick={() => router.push(`/browse/All`)}
+                      >
+                        Browse
+                      </div>
                    
                   </div>
                 </div>
