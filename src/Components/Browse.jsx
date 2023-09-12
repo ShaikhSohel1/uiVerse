@@ -43,7 +43,10 @@ export default function Browse({element}) {
     let endIndex = startIndex + cardsPerPage;
 
     if (element === 'All') {
-      setFilteredPost(post.slice(startIndex, endIndex));
+      const filteredData = post.filter(
+        (item) => (item.Element_Type != "Cards" && item.Element_Type != "Forms" )
+      );
+      setFilteredPost(filteredData.slice(startIndex, endIndex));
     } else  {
       const filteredData = post.filter(
         (item) => item.Element_Type === element

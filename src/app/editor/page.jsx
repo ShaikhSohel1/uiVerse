@@ -28,7 +28,7 @@ export default function page() {
      </div>
      </div>
      </>
-    ) : signIn()}
+    ) : null}
     </div>
    
   )

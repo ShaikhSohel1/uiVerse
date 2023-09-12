@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 
 export default function Community() {
   const [post, setpost] = useState([]);
+  const [filteredPost, setFilteredPost] = useState([]);
   const getPosts = async () => {
     const docRef = await getDocs(collection(db, "Posts")).then(
       (querySnapshot) => {
@@ -24,12 +25,21 @@ export default function Community() {
     getPosts();
   }, []);
 
+    // filter data according to side bar selection
+    useEffect(() => {
+  
+        const filteredData = post.filter(
+          (item) => (item.Element_Type != "Cards" && item.Element_Type != "Forms" )
+        );
+        setFilteredPost(filteredData);
+    }, [post]);
+
 
   return (
     <div class="text-center p-10">
     <h1 class="font-bold text-4xl mb-4 text-white cursor-default">Community</h1>
     <div className='grid grid-cols-1 mt-10 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-    {post.map((element) => (
+    {filteredPost.map((element) => (
       <PostCard 
       element = {element}
       />

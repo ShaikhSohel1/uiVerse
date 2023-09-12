@@ -62,7 +62,15 @@ export default function CustomEditor() {
 
   useEffect(() => {
     if(id)
-    getPostData();
+    {
+      getPostData();
+    }
+    else{
+      setHtmlCode('');
+      setCssCode('');
+      setpostdata();
+    }
+   
   }, [id]);
 
   
@@ -85,7 +93,19 @@ export default function CustomEditor() {
 
   return (
     <>
+    {postdata ? (
+    <div className='flex justify-between'>
+          <p className='text-3xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>
+  {postdata && postdata.PostTitle}
+</p>
+      <p className='text-3xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>
+  {postdata && `#${postdata.Element_Type}`}
+</p>
+      </div>
+      ) : null}
+          
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 m-4">
+
      
       <div className="p-6 h-[80vh] placeholder-white placeholder-opacity-50 xs:rounded-t-[12px] lg:rounded-l-[12px] resize-none focus:outline-none focus:border-transparent bg-[#212121] text-white">
         <iframe
@@ -153,15 +173,60 @@ export default function CustomEditor() {
      
     </div>
      <div className='flex justify-between'>
-     <div></div>
+      {postdata ? (
+             <div className='flex items-center gap-2'>
+             <div className='px-6'>
+               <img src={postdata && postdata.UserImage} 
+               className='rounded-full w-12 h-12'/>
+             </div>
+             <div>
+             <p className='font-bold text-transparent bg-clip-text text-xl bg-gradient-to-r from-green-500 to-cyan-400'>{postdata && postdata.userName}</p>
+             </div>
+           </div>
+      ) : (
+        <div></div>
+      )}
+
+  {postdata ? (
+    
+postdata.UserEmail == session.user.email ? (
+  <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
+  onClick={() => setOpen(true)}
+  >Update</button>
+ 
+ ) : (
    <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
    onClick={() => setOpen(true)}
-   >Save</button>
-     
-     {open ? (
+   >Contribute</button>
+ )
+
+  ) : (
+    <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
+   onClick={() => setOpen(true)}
+   >Save</button> 
+  )}
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+   {open ? (
       <SavePostModel open={open} setOpen={setOpen} setelementType={setelementType} setPostTitle={setPostTitle} onSave={onSave}/>
      ) : null}
-   </div>
    </>
   );
 }
