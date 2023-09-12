@@ -1,11 +1,35 @@
 "use client";
 import Button from "@/Utility_Component/Button";
+import { collection, getCountFromServer, getDocs, query, where } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "../../../firebase/firebase";
 
 export default function ProfileInfo() {
+
   const { data: session, status } = useSession();
+  const [postCount, setPostCount] = useState(0);
+
+  
+  // retrive length of posts according to session email
+  useEffect(() => {
+    if (session) {
+      // Create a query to get the posts where UserEmail matches the user's email
+      const q = query(collection(db, 'Posts'), where('UserEmail', '==', session.user?.email));
+
+      // Get the documents that match the query
+      const fetchPostCount = async () => {
+        const querySnapshot = await getDocs(q);
+        const count = querySnapshot.size; // Get the number of documents
+        console.log(count)
+        setPostCount(count);
+      };
+
+      fetchPostCount();
+    }
+  }, [session]);
+
 
   return (
     <>
@@ -19,7 +43,10 @@ export default function ProfileInfo() {
        
               <div>
           
-                <p class="font-bold text-gray-300 text-xl">22</p>
+                <p class="font-bold text-gray-300 text-xl">
+                  {/* print length of user post */}
+                  {postCount}
+                </p>
                 <p class="text-gray-100">Posts</p>
               </div>
               {/* <div>

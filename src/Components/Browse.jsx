@@ -17,7 +17,7 @@ export default function Browse({element}) {
   const [post, setpost] = useState([]);
   const [filteredPost, setFilteredPost] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 2;
+  const cardsPerPage = element=="Forms" ? 2 : 3;
   // const [dropDownElement, setdropDownElement] = useState("All")
 
   const getPosts = async () => {
@@ -73,7 +73,10 @@ export default function Browse({element}) {
     <h1 class="font-bold text-4xl mb-4 text-white cursor-default">{element}</h1>
     <DropDownButton elements={elements} />
       </div>
-    <div className='grid grid-cols-1 mt-10 gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'>
+    <div
+    //  className='grid grid-cols-1 mt-10 gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'
+    className={classNames(element == "Forms"? ' md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2':' md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3','grid grid-cols-1 mt-10 gap-6')}
+    >
     {filteredPost.map((element) => (
           <PostCard element={element} key={element.id} /> // Add a unique key prop
         ))}

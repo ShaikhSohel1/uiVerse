@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { onSnapshot } from 'firebase/firestore';
 
@@ -55,7 +55,7 @@ export default function PostCard({element}) {
   
       // Check if the current user has liked the post
       if (
-        newData.findIndex((like) => like.UserName === session.user.email) !== -1
+        newData.findIndex((like) => like.UserName === session?.user?.email) !== -1
       ) {
         setlikes(true);
       } else {
@@ -81,12 +81,13 @@ useEffect(() => {
 }, [getLikes]);
 
 const LikePost = async () => {
-  await setDoc(doc(db, "Posts", element.id, "Likes", session.user.email), {
+  await setDoc(doc(db, "Posts", element.id, "Likes", session.user?.email), {
     UserName: session.user.email,
   });
   setlikes(true);
 
 };
+
 const deletePost = async () => {
   await deleteDoc(
     doc(db, "Posts", element.id, "Likes", session.user.email)
@@ -109,7 +110,9 @@ href={{
     srcDoc={previewCode}
     width="100%"
     height="100%"
-    className={classNames(active || activefroms  ? 'min-h-[25rem] max-h-[50rem]' : 'min-h-[17rem] max-h-[17rem]', '')}
+    // className={classNames(active || activefroms  ? 'min-h-[38rem] max-h-[50rem]' : 'min-h-[17rem] max-h-[17rem]', '')}
+    // add classname according to element type check 3 types of element 
+    className={classNames(active ? 'min-h-[25rem] max-h-[50rem]' : activefroms ? 'min-h-[45rem] max-h-[50rem]' : 'min-h-[17rem] max-h-[17rem]', '')}
     // className='min-h-[25rem] max-h-[50rem]'
   ></iframe>
   {/* {onHover ? (  */}
@@ -128,7 +131,7 @@ href={{
       className='rounded-full w-8 h-8'/>
     </div>
     <div>
-    <p className='font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>{element.userName}</p>
+    <p className='font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>{element.userName}</p>  
     </div>
   </div>
   <div className='flex gap-4'>
@@ -147,7 +150,7 @@ href={{
           )}
           </>):(<>
             <HeartIcon
-              className="w-6 h-6 transform transition duration-500 hover:scale-125"
+              className="w-6 h-6 transform transition duration-500 hover:scale-125 text-red-700 fill-red-700 cursor-not-allowed"
               onClick={() => signIn()}
             />
           </>)}

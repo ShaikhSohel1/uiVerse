@@ -9,9 +9,7 @@ export default function page() {
     <div className='flex flex-col'>
 
       <ProfileInfo />
-
-  
-    <Issue />
+    {/* <Issue /> */}
     <UserPostSection />
  
     </div>
