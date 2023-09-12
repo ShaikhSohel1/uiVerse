@@ -7,6 +7,7 @@ import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase/firebase';
 import { useSession } from 'next-auth/react';
 import { HeartIcon } from '@heroicons/react/24/outline';
+import { onSnapshot } from 'firebase/firestore';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -40,27 +41,40 @@ export default function PostCard({element}) {
       ${htmlCode}`);
   }, [htmlCode, cssCode]);
 
-const getLikePost = async () => {
-  const docRef = await getDocs(
-    collection(db, "Posts", element.id, "Likes")
-  ).then((querySnapshot) => {
-    const newData = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    setgetLikes(newData);
-    setgetLikeNumber(newData.length);
-    if (
-      newData.findIndex((like) => like.UserName === session.user.email) !== -1
-    ) {
-      setlikes(true);
-    }
-  });
-}
-
-useEffect(() => {
-  getLikePost();
-}, [likes]);
+  const getLikePost = () => {
+    const likesCollectionRef = collection(db, "Posts", element.id, "Likes");
+  
+    // Set up a real-time listener
+    const unsubscribe = onSnapshot(likesCollectionRef, (querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setgetLikes(newData);
+      setgetLikeNumber(newData.length);
+  
+      // Check if the current user has liked the post
+      if (
+        newData.findIndex((like) => like.UserName === session.user.email) !== -1
+      ) {
+        setlikes(true);
+      } else {
+        setlikes(false);
+      }
+    });
+  
+    // Clean up the listener when the component unmounts
+    return unsubscribe;
+  };
+  
+  useEffect(() => {
+    const unsubscribe = getLikePost();
+  
+    return () => {
+      // Unsubscribe from the listener when the component unmounts
+      unsubscribe();
+    };
+  }, []);
 
 useEffect(() => {
   setgetLikeNumber(getLikes.length);
