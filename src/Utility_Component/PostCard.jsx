@@ -74,7 +74,7 @@ export default function PostCard({element}) {
       // Unsubscribe from the listener when the component unmounts
       unsubscribe();
     };
-  }, []);
+  }, [getLikePost]);
 
 useEffect(() => {
   setgetLikeNumber(getLikes.length);

@@ -8,6 +8,8 @@ import {db} from '../../firebase/firebase'
 import { useSession } from 'next-auth/react';
 import elements from '@/Utility_Component/ElementData';
 import { CssSyntaxError } from 'postcss';
+import SaveUpdateModel from '@/Utility_Component/SaveUpdateModel';
+import SaveContributeModel from '@/Utility_Component/SaveContributeModel';
 
 export default function CustomEditor() {
   // get post from params
@@ -20,6 +22,8 @@ export default function CustomEditor() {
   const [postdata, setpostdata] = useState()
   const [htmlCode, setHtmlCode] = useState();
   const [cssCode, setCssCode] = useState();
+  const [update,setupdate] = useState(false);
+  const [contribute,setContribute] = useState(false);
   const BodyStyle = ``
   //  to combine htm css code into one document
 
@@ -33,6 +37,8 @@ export default function CustomEditor() {
   // save Post Data To Database
   const [elementType, setelementType] = useState('')
   const [PostTitle, setPostTitle] = useState('')
+  const [Description, setDescription] = useState('')
+
   const onSave = async () => {
     const docRef = await addDoc(collection(db, "Posts"),{
       UserEmail: session.user?.email,
@@ -44,6 +50,31 @@ export default function CustomEditor() {
       PostTitle: PostTitle,
       timestamp: serverTimestamp()
     }).then(data => console.log("success..."));
+  
+  }
+
+  const onContribute = async () => {
+    if(postdata){
+      const docRef = await addDoc(collection(db, "Contributions"),{
+        UserEmail: session.user?.email,
+        UserImage:session.user?.image,
+        userName: session.user?.name,
+        Description : Description,
+        PostId : id,
+        OwnerEmail : postdata.UserEmail,
+        OwnerName : postdata.userName,
+        UpdatedHtmlCode: htmlCode,
+        UpdatedCssCode: cssCode,
+        Element_Type: postdata.Element_Type,
+        PostTitle: postdata.PostTitle,
+        timestamp: serverTimestamp()
+      }).then(data => console.log("success..."));
+      console.log("Contributed",postdata.UserEmail)
+    }
+    else{
+      console.log("not found")
+    }
+   
   
   }
   
@@ -191,12 +222,12 @@ export default function CustomEditor() {
     
 postdata.UserEmail == session.user.email ? (
   <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
-  onClick={() => setOpen(true)}
+  onClick={() => setupdate(true)}
   >Update</button>
  
  ) : (
    <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
-   onClick={() => setOpen(true)}
+   onClick={() => setContribute(true)}
    >Contribute</button>
  )
 
@@ -225,7 +256,15 @@ postdata.UserEmail == session.user.email ? (
 
 
    {open ? (
-      <SavePostModel open={open} setOpen={setOpen} setelementType={setelementType} setPostTitle={setPostTitle} onSave={onSave}/>
+      <SavePostModel open={open} setOpen={setOpen} setelementType={setelementType} setPostTitle={setPostTitle} onSave={onSave} />
+     ) : null}
+
+{update ? (
+      <SaveUpdateModel open={update} setOpen={setupdate} setelementType={setelementType} setPostTitle={setPostTitle}  />
+     ) : null}
+
+{contribute ? (
+      <SaveContributeModel open={contribute} setOpen={setContribute}   onSave={onContribute}  setPostTitle={setDescription}/>
      ) : null}
    </>
   );
