@@ -3,7 +3,7 @@
 import IssueCard from '@/Utility_Component/IssueCard'
 import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react';
-import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc } from "firebase/firestore"; 
+import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore"; 
 import {db} from '../../../firebase/firebase'
 
 
@@ -15,29 +15,34 @@ export default function Issue() {
   const [issueData, setIssueData] = useState('')
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const getIssueData = async () => {
-    const unsubscribe = await getDocs(collection(db, "Contributions")).then(
-      (querySnapshot) => {
+  const getIssueData = () => {
+    if(session)
+    {
+      const ContributionCollectionRef = query(collection(db, "Contributions"), where("OwnerEmail", "==", session.user?.email));
+      const unsubscribe = onSnapshot(ContributionCollectionRef, (querySnapshot) => {
         const newData = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
         }));
-       setIssueData(newData);
-        console.log(newData);
-      }
-    );
-  
-    // Clean up the listener when the component unmounts
-    return unsubscribe;
+         setIssueData(newData);
+          console.log(newData);
+        }
+      );
+
+      return unsubscribe;
+    }
+    // const ContributionCollectionRef = collection(db, "Contributions");
+
+
+ 
   };
   
   useEffect(() => {
-    const unsubscribe = getIssueData();
-  
-    return () => {
-      // Unsubscribe from the listener when the component unmounts
-      unsubscribe();
-    };
+const unsubscribe = getIssueData();
+
+return () => {
+  unsubscribe();
+};
   }, []);
 
 
@@ -45,7 +50,8 @@ export default function Issue() {
 
   return (
     <div>
-      <p className='mt-6 font-semibold text-white flex items-center justify-center text-5xl'>Issues</p>
+      {issueData &&  <p className='mt-6 font-semibold text-white flex items-center justify-center text-5xl'>Issues</p>}
+     
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 px-9 mt-4'>
       {/* <IssueCard />
       <IssueCard />
