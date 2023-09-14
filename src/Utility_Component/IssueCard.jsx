@@ -4,7 +4,7 @@ import IssueViewModel from './IssueViewModel'
 import PostCard from './PostCard'
 
 
-export default function IssueCard() {
+export default function IssueCard({issue}) {
   const [open, setOpen] = useState(false)
 
   
@@ -16,12 +16,12 @@ export default function IssueCard() {
   
     </div>
     <div class="flex flex-col items-center pb-10 justify-center" >
-        <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="https://avatars.githubusercontent.com/u/87869024?v=4" alt="Bonnie image"/>
-        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-        <span class="text-sm text-gray-400">Visual Designer</span>
+        <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src={issue.UserImage} alt="Bonnie image"/>
+        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{issue.userName}</h5>
+        <span class="text-sm text-gray-400">{issue.UserEmail}</span>
         <div class="flex mt-4 space-x-3 md:mt-6">
-            <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add friend</a>
-            <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Message</a>
+            <button  class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300  ">Merge</button>
+            <button  class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Decline</button>
         </div>
     </div>
 </div>
@@ -31,7 +31,7 @@ export default function IssueCard() {
   <div className='flex flex-col space-y-28'>
     <div>
     <p className='text-white text-lg font-semibold'>Description</p>
-  <p className='text-white text-sm font-medium'>Hello there!!</p>
+  <p className='text-white text-sm font-medium'>{issue.Description}</p>
     </div>
 
     <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
@@ -41,7 +41,7 @@ export default function IssueCard() {
 
 </div>
 {open ? (
-  <IssueViewModel open={open} setOpen={setOpen} />
+  <IssueViewModel open={open} setOpen={setOpen} issue={issue} />
  ) : null}
 
     </div>

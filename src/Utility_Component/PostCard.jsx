@@ -50,17 +50,13 @@ export default function PostCard({element}) {
         ...doc.data(),
         id: doc.id,
       }));
+  
       setgetLikes(newData);
       setgetLikeNumber(newData.length);
   
       // Check if the current user has liked the post
-      if (
-        newData.findIndex((like) => like.UserName === session?.user?.email) !== -1
-      ) {
-        setlikes(true);
-      } else {
-        setlikes(false);
-      }
+      const hasLiked = newData.some((like) => like.UserName === session?.user?.email);
+      setlikes(hasLiked);
     });
   
     // Clean up the listener when the component unmounts
@@ -68,17 +64,20 @@ export default function PostCard({element}) {
   };
   
   useEffect(() => {
+    // Start the listener only once when the component mounts
     const unsubscribe = getLikePost();
   
+    // Clean up the listener when the component unmounts
     return () => {
-      // Unsubscribe from the listener when the component unmounts
       unsubscribe();
     };
-  }, [getLikePost]);
-
-useEffect(() => {
-  setgetLikeNumber(getLikes.length);
-}, [getLikes]);
+  }, []); // Empty dependency array to run only once on mount
+  
+  useEffect(() => {
+    // Update the like count when the getLikes data changes
+    setgetLikeNumber(getLikes.length);
+  }, [getLikes]); // Only update when getLikes changes
+  
 
 const LikePost = async () => {
   await setDoc(doc(db, "Posts", element.id, "Likes", session.user?.email), {

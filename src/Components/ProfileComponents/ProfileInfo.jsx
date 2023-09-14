@@ -9,7 +9,8 @@ import { db } from "../../../firebase/firebase";
 export default function ProfileInfo() {
 
   const { data: session, status } = useSession();
-  const [postCount, setPostCount] = useState(0);
+  const [postData, setPostData] = useState(0);
+  const [postNumber, setPostNumber] = useState(0);
 
   
   // retrive length of posts according to session email
@@ -21,14 +22,25 @@ export default function ProfileInfo() {
       // Get the documents that match the query
       const fetchPostCount = async () => {
         const querySnapshot = await getDocs(q);
-        const count = querySnapshot.size; // Get the number of documents
-        console.log(count)
-        setPostCount(count);
+        // const count = querySnapshot.size; // Get the number of documents
+        // console.log(count)
+        // setPostCount(count);
+
+        setPostData(querySnapshot)
       };
 
       fetchPostCount();
     }
   }, [session]);
+
+  useEffect(() => {
+    setPostNumber(postData.size);
+
+    }
+  , [postData]);
+
+
+
 
 
   return (
@@ -45,7 +57,7 @@ export default function ProfileInfo() {
           
                 <p class="font-bold text-gray-300 text-xl">
                   {/* print length of user post */}
-                  {postCount}
+                  {postNumber}
                 </p>
                 <p class="text-gray-100">Posts</p>
               </div>

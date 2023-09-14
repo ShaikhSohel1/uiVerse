@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 import SavePostModel from '@/Utility_Component/SavePostModel';
-import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp, setDoc } from "firebase/firestore"; 
+import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc } from "firebase/firestore"; 
 import {db} from '../../firebase/firebase'
 import { useSession } from 'next-auth/react';
 import elements from '@/Utility_Component/ElementData';
@@ -76,6 +76,27 @@ export default function CustomEditor() {
     }
    
   
+  }
+
+ // create on update functionality
+  const onUpdate = async () => {
+    
+    if(postdata){
+      const docRef = await updateDoc(doc(db, "Posts", id),{
+        UserEmail: session.user?.email,
+        UserImage:session.user?.image,
+        userName: session.user?.name,
+        HtmlCode: htmlCode,
+        CssCode: cssCode,
+        Element_Type: elementType,
+        PostTitle: PostTitle,
+        timestamp: serverTimestamp()
+      }).then(data => console.log("success..."));
+      console.log("updated")
+    }
+    else{
+      console.log("not found")
+    }
   }
   
 // Get Post Data with id 
@@ -260,7 +281,7 @@ postdata.UserEmail == session.user.email ? (
      ) : null}
 
 {update ? (
-      <SaveUpdateModel open={update} setOpen={setupdate} setelementType={setelementType} setPostTitle={setPostTitle}  />
+      <SaveUpdateModel open={update} setOpen={setupdate} setelementType={setelementType} setPostTitle={setPostTitle}  onSave={onUpdate} />
      ) : null}
 
 {contribute ? (

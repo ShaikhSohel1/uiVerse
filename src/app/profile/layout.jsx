@@ -5,9 +5,9 @@ import React from 'react'
 export default function layout({children}) {
   return (
     <div>
-        <AuthProvider>
+  
           {children}
-        </AuthProvider>
+       
     </div>
   )
 }

@@ -8,6 +8,7 @@ import Link from 'next/link'
 import Logo from '../../public/uiVerseLogo.png'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import ButtonLogo from '@/Utility_Component/ButtonLogo'
 
 
 const navigation = [
@@ -43,15 +44,9 @@ export default function NavBar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
-                  <Image
-                    className="h-9 w-auto mx-7 mt-2 hidden lg:flex md:flex"
-                    src={Logo}
-                    width="30px"
-                    height="20px"
-                    alt="Your Company"
-                  />
+              <div className="flex flex-1 items-center justify-center  sm:justify-start">
+                <div className="items-center hidden sm:flex">
+                 <ButtonLogo />
                 </div>
                 <div className="hidden sm:ml-6 sm:block flex-1">
                   <div className="flex space-x-4">

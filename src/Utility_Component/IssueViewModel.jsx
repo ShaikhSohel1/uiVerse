@@ -4,7 +4,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import elements from './ElementData'
 import { Editor } from '@monaco-editor/react'
 
-export default function IssueViewModel({open,setOpen}) {
+export default function IssueViewModel({open,setOpen, issue}) {
     const [htmlCode, setHtmlCode] = useState();
     const [cssCode, setCssCode] = useState();
     const [previewCode, setPreviewCode] = useState('');
@@ -36,10 +36,10 @@ export default function IssueViewModel({open,setOpen}) {
           height: 100vh;
           margin: 0;
         }
-        ${cssCode}
+        ${issue.UpdatedCssCode}
       </style>
-      ${htmlCode}`);
-  }, [ htmlCode, cssCode]);
+      ${issue.UpdatedHtmlCode}`);
+  }, [issue]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -73,7 +73,7 @@ export default function IssueViewModel({open,setOpen}) {
                     
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left flex flex-col items-center ">
                       <Dialog.Title as="h3" className="text-4xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400 mt-1 ">
-                        UserName
+                        {issue.userName}
                       </Dialog.Title>
                       <div>
                        {/* Live Preview Of Contributors Updated Code */}
@@ -116,26 +116,47 @@ export default function IssueViewModel({open,setOpen}) {
       CSS
     </div>
   </div>
-  <div className='rounded-lg'>
+  <div  className='rounded-lg' >
     {activeTab === 'html' ? (
+      // disable this editoe
+
       <Editor
+       
         height="74.1vh"
         language="html"
-        value={htmlCode}
+        value={issue.UpdatedHtmlCode}
         theme="vs-dark"
         options={{
           fontSize: '16px',
           autoClosingBrackets: true,
           minimap: { enabled: false },
           wordWrap: 'on',
+          domReadOnly: false,
+        acceptSuggestionOnCommitCharacter: true,
+        acceptSuggestionOnEnter: 'on',
+        screenReaderAnnounceInlineSuggestions: true,
+        accessibilitySupport: 'auto',
+        autoIndent: 'full',
+        automaticLayout: true,
+        codeLens: true,
+        colorDecorators: true,
+        contextmenu: true,
+        cursorBlinking: 'blink',
+        cursorSmoothCaretAnimation: true,
+        cursorStyle: 'line',
+       
+
+          
         }}
-        onChange={(value) => setHtmlCode(value)}
+        
+
+        
       />
     ) : (
       <Editor
         height="74.1vh"
         language="css"
-        value={cssCode}
+        value={issue.UpdatedCssCode}
         theme="vs-dark"
         options={{
           fontSize: '16px',
@@ -143,7 +164,7 @@ export default function IssueViewModel({open,setOpen}) {
           minimap: { enabled: false },
           wordWrap: 'on',
         }}
-        onChange={(value) => setCssCode(value)}
+        
       />
     )}
   </div>
