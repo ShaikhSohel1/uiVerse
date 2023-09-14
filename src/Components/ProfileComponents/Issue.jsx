@@ -16,9 +16,8 @@ export default function Issue() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getIssueData = () => {
-    if(session)
-    {
-      const ContributionCollectionRef = query(collection(db, "Contributions"), where("OwnerEmail", "==", session.user?.email));
+
+      const ContributionCollectionRef = query(collection(db, "Contributions"), where("OwnerEmail", "==", `${session ? session.user.email : null}`));
       const unsubscribe = onSnapshot(ContributionCollectionRef, (querySnapshot) => {
         const newData = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
@@ -29,8 +28,7 @@ export default function Issue() {
         }
       );
 
-      return unsubscribe;
-    }
+    
     // const ContributionCollectionRef = collection(db, "Contributions");
 
 
@@ -38,20 +36,19 @@ export default function Issue() {
   };
   
   useEffect(() => {
-const unsubscribe = getIssueData();
-
-return () => {
-  unsubscribe();
-};
+getIssueData();
   }, []);
+
+  
 
 
 
 
   return (
     <div>
-      {issueData &&  <p className='mt-6 font-semibold text-white flex items-center justify-center text-5xl'>Issues</p>}
-     
+      {!issueData.length == 0 ? (
+      <>
+      <p className='mt-6 font-semibold text-white flex items-center justify-center text-5xl'>Issues</p>
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 px-9 mt-4'>
       {/* <IssueCard />
       <IssueCard />
@@ -65,6 +62,10 @@ return () => {
         ))
       }
       </div>
+      </>
+      ): null}
+     
+
     </div>
   )
 }

@@ -1,7 +1,7 @@
 "use client"
 import PostCard from '@/Utility_Component/PostCard'
 import React, { useEffect, useState } from 'react'
-import { addDoc, collection, doc, getDocs, serverTimestamp, setDoc } from "firebase/firestore"; 
+import { addDoc, collection, doc, getDocs, serverTimestamp, setDoc, where } from "firebase/firestore"; 
 import { useSession } from 'next-auth/react';
 import {db} from '../../../firebase/firebase'
 
@@ -11,17 +11,17 @@ export default function UserPostSection() {
   const [post, setpost] = useState([]);
   const [filteredPost, setFilteredPost] = useState([]);
   const getPosts = async () => {
-    const docRef = await getDocs(collection(db, "Posts")).then(
-      (querySnapshot) => {
-        const newData = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-       setpost(newData)
-        console.log(newData);
-      
-      }
-    );
+      const docRef = await getDocs(collection(db, "Posts")).then(
+        (querySnapshot) => {
+          const newData = querySnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+         setpost(newData)
+          console.log(newData);
+        
+        }
+      );
   };
   
 

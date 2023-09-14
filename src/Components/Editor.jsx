@@ -10,6 +10,10 @@ import elements from '@/Utility_Component/ElementData';
 import { CssSyntaxError } from 'postcss';
 import SaveUpdateModel from '@/Utility_Component/SaveUpdateModel';
 import SaveContributeModel from '@/Utility_Component/SaveContributeModel';
+import Contributers from './Contributers';
+import ContributionModel from '@/Utility_Component/ContributersModel';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function CustomEditor() {
   // get post from params
@@ -24,6 +28,8 @@ export default function CustomEditor() {
   const [cssCode, setCssCode] = useState();
   const [update,setupdate] = useState(false);
   const [contribute,setContribute] = useState(false);
+const [contributersList, setcontributersList] = useState()
+const [ContributeModel, setContributeModel] = useState(false)
   const BodyStyle = ``
   //  to combine htm css code into one document
 
@@ -50,6 +56,16 @@ export default function CustomEditor() {
       PostTitle: PostTitle,
       timestamp: serverTimestamp()
     }).then(data => console.log("success..."));
+    toast('Saved Successfully...',
+    {
+      icon: '✅',
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+    }
+  );
   
   }
 
@@ -69,6 +85,16 @@ export default function CustomEditor() {
         PostTitle: postdata.PostTitle,
         timestamp: serverTimestamp()
       }).then(data => console.log("success..."));
+      toast('Contributed Successfully! Wait till Owner Review Your Contribution...',
+      {
+        icon: '✅',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      }
+    );
       console.log("Contributed",postdata.UserEmail)
     }
     else{
@@ -92,7 +118,20 @@ export default function CustomEditor() {
         PostTitle: PostTitle,
         timestamp: serverTimestamp()
       }).then(data => console.log("success..."));
+
+      toast('Updated Successfully...',
+      {
+        icon: '✅',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      }
+    );
+
       console.log("updated")
+
     }
     else{
       console.log("not found")
@@ -107,10 +146,22 @@ export default function CustomEditor() {
        setpostdata(newData)
        setHtmlCode(newData.HtmlCode)
        setCssCode(newData.CssCode)
+       setPostTitle(newData.PostTitle)
+      }
+    );
+    const docRef1 = await getDocs(collection(db, "Posts", id, "Contributers")).then(
+      (querySnapshot) => {
+        const newData = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+       setcontributersList(newData)
         console.log(newData);
       }
     );
   };
+
+
 
   useEffect(() => {
     if(id)
@@ -121,6 +172,7 @@ export default function CustomEditor() {
       setHtmlCode('');
       setCssCode('');
       setpostdata();
+      setcontributersList();
     }
    
   }, [id]);
@@ -258,13 +310,25 @@ postdata.UserEmail == session.user.email ? (
    >Save</button> 
   )}
 
-
         </div>
 
 
 
+{contributersList && (
+ <div className='flex flex-col '>
+ <p className='text-2xl text-white font-semibold mx-5 '>Contributers:</p>
+ <div className='flex justify-end sm:justify-start lg:justify-end xl:justify-start -space-x-1.5 mt-4 hover:bg-slate-800 px-6 py-1 mb-5 w-fit rounded-lg hover:cursor-pointer'
+ onClick={() => setContributeModel(true)}
+ >
+ {contributersList.slice(0, 5).map((i) => (
+     <img className="w-10 h-10  mb-3 rounded-full shadow-lg" src={i.UserImage} alt="Bonnie image"/>
+ ))}
+ 
+ </div>
 
-
+</div>
+)}
+       
 
 
 
@@ -273,15 +337,15 @@ postdata.UserEmail == session.user.email ? (
   
 
 
+       <Toaster />
 
-
-
+{ContributeModel ?(<ContributionModel open={ContributeModel} setOpen={setContributeModel} contributersList={contributersList}/> )  : null }
    {open ? (
-      <SavePostModel open={open} setOpen={setOpen} setelementType={setelementType} setPostTitle={setPostTitle} onSave={onSave} />
+    <SavePostModel open={open} setOpen={setOpen} setelementType={setelementType} setPostTitle={setPostTitle} onSave={onSave} />
      ) : null}
 
 {update ? (
-      <SaveUpdateModel open={update} setOpen={setupdate} setelementType={setelementType} setPostTitle={setPostTitle}  onSave={onUpdate} />
+      <SaveUpdateModel open={update} setOpen={setupdate} setelementType={setelementType} setPostTitle={setPostTitle} PostTitle={PostTitle}  onSave={onUpdate} />
      ) : null}
 
 {contribute ? (
