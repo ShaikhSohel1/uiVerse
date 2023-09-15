@@ -28,7 +28,7 @@ export default function CustomEditor() {
   const [cssCode, setCssCode] = useState();
   const [update,setupdate] = useState(false);
   const [contribute,setContribute] = useState(false);
-const [contributersList, setcontributersList] = useState()
+const [contributersList, setcontributersList] = useState([])
 const [ContributeModel, setContributeModel] = useState(false)
   const BodyStyle = ``
   //  to combine htm css code into one document
@@ -191,6 +191,7 @@ const [ContributeModel, setContributeModel] = useState(false)
         }
         ${cssCode}
       </style>
+      <script src="https://cdn.tailwindcss.com"></script>
       ${htmlCode}`);
   }, [id, htmlCode, cssCode]);
 
@@ -314,20 +315,20 @@ postdata.UserEmail == session.user.email ? (
 
 
 
-{contributersList && (
+{!contributersList.length == 0 ? (
  <div className='flex flex-col '>
  <p className='text-2xl text-white font-semibold mx-5 '>Contributers:</p>
  <div className='flex justify-end sm:justify-start lg:justify-end xl:justify-start -space-x-1.5 mt-4 hover:bg-slate-800 px-6 py-1 mb-5 w-fit rounded-lg hover:cursor-pointer'
  onClick={() => setContributeModel(true)}
  >
- {contributersList.slice(0, 5).map((i) => (
+ {contributersList && contributersList.slice(0, 5).map((i) => (
      <img className="w-10 h-10  mb-3 rounded-full shadow-lg" src={i.UserImage} alt="Bonnie image"/>
  ))}
  
  </div>
 
 </div>
-)}
+): null}
        
 
 

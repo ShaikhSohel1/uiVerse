@@ -17,7 +17,7 @@ import {
 import { db } from "../../firebase/firebase";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function IssueCard({ issue }) {
+export default function IssueCard({ issue, notify }) {
   console.log(issue.id);
   const [open, setOpen] = useState(false);
 
@@ -77,19 +77,10 @@ export default function IssueCard({ issue }) {
 
   const DeclineData = async () => {
 
-
-    const toastPromise = await toast("Declined!", {
-      icon: "✅",
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
-      },
-    });
-  
     // Wait for the toast to complete (it will automatically disappear)
 
     const docRef = await deleteDoc(doc(db, "Contributions", issue.id));
+    notify();
 
     console.log("DeclineData");
   };

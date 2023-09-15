@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react';
 import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore"; 
 import {db} from '../../../firebase/firebase'
-
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Issue() {
 
@@ -40,7 +40,16 @@ getIssueData();
   }, []);
 
   
-
+const notify =() => {
+  toast("Declined!", {
+    icon: "✅",
+    style: {
+      borderRadius: "10px",
+      background: "#333",
+      color: "#fff",
+    },
+  });
+}
 
 
 
@@ -58,6 +67,7 @@ getIssueData();
           <IssueCard
           key={issue.id}
           issue={issue}
+          notify={notify}
           />
         ))
       }
@@ -65,7 +75,7 @@ getIssueData();
       </>
       ): null}
      
-
+     <Toaster />
     </div>
   )
 }

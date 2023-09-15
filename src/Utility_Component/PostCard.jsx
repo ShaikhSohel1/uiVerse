@@ -22,6 +22,7 @@ export default function PostCard({element}) {
   const [likes, setlikes] = useState(false);
   const [getLikes, setgetLikes] = useState([]);
   const [getLikeNumber, setgetLikeNumber] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const active = element.Element_Type == 'Cards';
   const activefroms = element.Element_Type == 'Forms';
@@ -96,6 +97,7 @@ const deletePost = async () => {
 
   return (
   <div>
+    
 <div class="w-full rounded-lg shadow bg-[#2a303a] group/item "
 >
 <Link

@@ -14,7 +14,6 @@ import ButtonLogo from '@/Utility_Component/ButtonLogo'
 const navigation = [
   { name: 'Home', href: '/', current: false },
   // { name: 'Browse', href: '/browse', current: false },
-  { name: 'Editor', href: '/editor', current: false },
 ]
 
 function classNames(...classes) {

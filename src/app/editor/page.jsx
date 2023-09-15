@@ -7,8 +7,10 @@ import { signIn, useSession } from 'next-auth/react';
 import React from 'react'
 import elements from '@/Utility_Component/ElementData';
 import {AiOutlineArrowLeft} from 'react-icons/ai'
+import { useRouter } from 'next/navigation';
 
 export default function page() {
+  const router  = useRouter();
     const {data: session, status}= useSession();
   return (
 
@@ -21,7 +23,12 @@ export default function page() {
      </div>
      <div className='col-span-6'>
      <div className='flex justify-between px-5'>
-    <h1 className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center hover:bg-slate-600 px-6 py-3 rounded-lg"><AiOutlineArrowLeft /> Go Back</h1>
+      
+    <h1 className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center hover:bg-slate-600 px-6 py-3 rounded-lg hover:cursor-pointer"
+    onClick={() => router.back()}
+    ><AiOutlineArrowLeft /> Go Back</h1>
+
+
     <DropDownButton elements={elements} />
       </div>
      <CustomEditor />

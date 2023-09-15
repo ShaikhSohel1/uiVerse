@@ -6,6 +6,7 @@ import elements from '@/Utility_Component/ElementData'
 import { addDoc, collection, doc, getDocs, serverTimestamp, setDoc } from "firebase/firestore"; 
 import {db} from '../../firebase/firebase'
 import { useRouter } from 'next/navigation'
+import SkeletonLoader from '@/Utility_Component/SkeletonLoader'
 
 
 function classNames(...classes) {
@@ -18,7 +19,12 @@ export default function Browse({element}) {
   const [filteredPost, setFilteredPost] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = element=="Forms" ? 2 : 3;
+  const [loading, setLoading] = useState(true);
   // const [dropDownElement, setdropDownElement] = useState("All")
+
+  const ElementList = [1,2,3,4,5,6,7,8,9];
+
+
 
   const getPosts = async () => {
     const docRef = await getDocs(collection(db, "Posts")).then(
@@ -28,7 +34,7 @@ export default function Browse({element}) {
           id: doc.id,
         }));
        setpost(newData)
-        console.log(newData);
+       setLoading(false)
       }
     );
   };
@@ -77,9 +83,23 @@ export default function Browse({element}) {
     //  className='grid grid-cols-1 mt-10 gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'
     className={classNames(element == "Forms"? ' md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2':' md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3','grid grid-cols-1 mt-10 gap-6')}
     >
-    {filteredPost.map((element) => (
-          <PostCard element={element} key={element.id} /> // Add a unique key prop
-        ))}
+      {
+        loading? (
+          <>
+          {ElementList.map(i => (
+              <SkeletonLoader element={element}/>
+          ))}
+        </>
+        ):(
+          <>
+          {filteredPost.map((element) => (
+            <PostCard element={element} key={element.id} /> // Add a unique key prop
+          ))}
+             </>
+        )
+      }
+   
+
     </div>
 
     
