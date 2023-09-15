@@ -26,7 +26,7 @@ export default function NavBar() {
 
 
   return (
-    <Disclosure as="nav" className="bg-[#22272E]">
+    <Disclosure as="nav" className="bg-transparent">
       {({ open }) => (
         <>
           <div className=" px-2 sm:px-6 lg:px-8">

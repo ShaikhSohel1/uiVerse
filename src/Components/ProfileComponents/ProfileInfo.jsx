@@ -5,10 +5,16 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../firebase/firebase";
+import { redirect } from 'next/navigation'
+
 
 export default function ProfileInfo() {
 
   const { data: session, status } = useSession();
+  if(!session)
+  {
+    redirect("/");
+  }
   const [postData, setPostData] = useState(0);
   const [postNumber, setPostNumber] = useState(0);
 

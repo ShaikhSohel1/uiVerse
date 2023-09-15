@@ -15,8 +15,7 @@ export default function page() {
   return (
 
     <div>
- {session ? ( 
-    <>
+    
      <div className='grid grid-cols-1 lg:grid-cols-7 h-full'>
      <div className='w-full'>
      <SideBar />
@@ -34,8 +33,6 @@ export default function page() {
      <CustomEditor />
      </div>
      </div>
-     </>
-    ) : null}
     </div>
    
   )

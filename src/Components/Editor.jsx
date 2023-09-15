@@ -3,9 +3,9 @@ import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import Editor, { DiffEditor, useMonaco, loader } from '@monaco-editor/react';
 import SavePostModel from '@/Utility_Component/SavePostModel';
-import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc } from "firebase/firestore"; 
+import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc, increment } from "firebase/firestore"; 
 import {db} from '../../firebase/firebase'
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import elements from '@/Utility_Component/ElementData';
 import { CssSyntaxError } from 'postcss';
 import SaveUpdateModel from '@/Utility_Component/SaveUpdateModel';
@@ -41,11 +41,37 @@ const [ContributeModel, setContributeModel] = useState(false)
 
 
   // save Post Data To Database
-  const [elementType, setelementType] = useState('')
-  const [PostTitle, setPostTitle] = useState('')
-  const [Description, setDescription] = useState('')
+  const [elementType, setelementType] = useState("All")
+  const [PostTitle, setPostTitle] = useState()
+  const [Description, setDescription] = useState()
 
   const onSave = async () => {
+    if(!htmlCode && !cssCode)
+    {
+      toast('What About HTML & CSS?',
+      {
+        icon: '❎',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return
+    }
+    if(!PostTitle)
+    {
+      toast('What About Post Title?',
+      {
+        icon: '❎',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return
+    }
     const docRef = await addDoc(collection(db, "Posts"),{
       UserEmail: session.user?.email,
       UserImage:session.user?.image,
@@ -56,6 +82,31 @@ const [ContributeModel, setContributeModel] = useState(false)
       PostTitle: PostTitle,
       timestamp: serverTimestamp()
     }).then(data => console.log("success..."));
+
+    const userDocumentRef = doc(db, "Users", session.user?.email);
+
+// Check if the document exists before updating
+const userDocumentSnapshot = await getDoc(userDocumentRef);
+if (userDocumentSnapshot.exists()) {
+  // Document exists, so you can update it
+  const docRef1 = await updateDoc(doc(db, "Users", session.user?.email), {
+    NoOfPosts: increment(1),
+    timestamp: serverTimestamp(),
+  });
+
+  console.log("Document updated successfully.");
+} else {
+  const docRef2 = await setDoc(doc(db, "Users", session.user?.email),{
+    UserEmail: session.user?.email,
+    UserImage:session.user?.image,
+    UserName: session.user?.name,
+    NoOfPosts: 1,
+    timestamp: serverTimestamp()
+  }).then(data => console.log("success..."));
+  console.log("Document does not exist.");
+}
+
+   
     toast('Saved Successfully...',
     {
       icon: '✅',
@@ -70,6 +121,47 @@ const [ContributeModel, setContributeModel] = useState(false)
   }
 
   const onContribute = async () => {
+    if(!htmlCode && !cssCode)
+    {
+      toast('What About HTML & CSS?',
+      {
+        icon: '❎',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return
+    }
+    if(htmlCode == postdata.HtmlCode && cssCode == postdata.CssCode)
+    {
+      toast('Is This What You Call Contribution?',
+      {
+        icon: '❎',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return
+    }
+    
+    if(!Description)
+    {
+      toast('What About Description?',
+      {
+        icon: '❎',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return
+    }
+
     if(postdata){
       const docRef = await addDoc(collection(db, "Contributions"),{
         UserEmail: session.user?.email,
@@ -106,6 +198,32 @@ const [ContributeModel, setContributeModel] = useState(false)
 
  // create on update functionality
   const onUpdate = async () => {
+    if(!htmlCode && !cssCode)
+    {
+      toast('What About HTML & CSS?',
+      {
+        icon: '❎',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return
+    }
+    if(!PostTitle)
+    {
+      toast('What About Post Title?',
+      {
+        icon: '❎',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
+      return
+    }
     
     if(postdata){
       const docRef = await updateDoc(doc(db, "Posts", id),{
@@ -172,7 +290,7 @@ const [ContributeModel, setContributeModel] = useState(false)
       setHtmlCode('');
       setCssCode('');
       setpostdata();
-      setcontributersList();
+      setcontributersList([]);
     }
    
   }, [id]);
@@ -221,8 +339,8 @@ const [ContributeModel, setContributeModel] = useState(false)
           className="live-preview-container"
         ></iframe>
       </div>
-      <div className="h-[80vh] placeholder-white placeholder-opacity-50 xs:rounded-b-[12px] lg:rounded-r-[12px] resize-none focus:outline-none focus:border-transparent bg-[#1e1e1e] text-white">
-        <div className="flex w-full bg-[#181515] m-0 px-9 gap-10 cursor-default">
+      <div className="h-[80vh] placeholder-white placeholder-opacity-50 xs:rounded-b-[12px] lg:rounded-r-[12px] resize-none focus:outline-none focus:border-transparent bg-[#212121] text-white">
+        <div className="flex w-full bg-[#212121] m-0 px-9 gap-10 cursor-default">
           <div
             className={`p-3 cursor-pointer px-10 rounded-t-xl flex ${
               activeTab === 'html' ? 'bg-[#1e1e1e]' : ''
@@ -291,25 +409,34 @@ const [ContributeModel, setContributeModel] = useState(false)
       ) : (
         <div></div>
       )}
-
-  {postdata ? (
+      {session ? (
+        <>
+          {postdata ? (
     
-postdata.UserEmail == session.user.email ? (
-  <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
-  onClick={() => setupdate(true)}
-  >Update</button>
- 
- ) : (
-   <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
-   onClick={() => setContribute(true)}
-   >Contribute</button>
- )
+            postdata.UserEmail == session.user.email ? (
+              <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
+              onClick={() => setupdate(true)}
+              >Update</button>
+             
+             ) : (
+               <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
+               onClick={() => setContribute(true)}
+               >Contribute</button>
+             )
+            
+              ) : (
+                <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
+               onClick={() => setOpen(true)}
+               >Save</button> 
+              )}
+              </>
+      ): (
+        <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
+               onClick={() => signIn()}
+               >SignIn</button> 
+      )}
 
-  ) : (
-    <button className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
-   onClick={() => setOpen(true)}
-   >Save</button> 
-  )}
+
 
         </div>
 

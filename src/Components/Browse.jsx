@@ -3,7 +3,7 @@ import DropDownButton from '@/Utility_Component/DropDownButton'
 import PostCard from '@/Utility_Component/PostCard'
 import React, { useEffect, useState } from 'react'
 import elements from '@/Utility_Component/ElementData'
-import { addDoc, collection, doc, getDocs, serverTimestamp, setDoc } from "firebase/firestore"; 
+import { addDoc, collection, doc, getDocs, onSnapshot, serverTimestamp, setDoc } from "firebase/firestore"; 
 import {db} from '../../firebase/firebase'
 import { useRouter } from 'next/navigation'
 import SkeletonLoader from '@/Utility_Component/SkeletonLoader'
@@ -13,35 +13,61 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 export default function Browse({element}) {
   const router = useRouter();
   const [post, setpost] = useState([]);
   const [filteredPost, setFilteredPost] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = element=="Forms" ? 2 : 3;
+  const cardsPerPage = element=="Forms" ? 2 : 4;
   const [loading, setLoading] = useState(true);
   // const [dropDownElement, setdropDownElement] = useState("All")
 
   const ElementList = [1,2,3,4,5,6,7,8,9];
 
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+    console.log(currentPage)
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      console.log(currentPage)
+    }
+  };
 
 
-  const getPosts = async () => {
-    const docRef = await getDocs(collection(db, "Posts")).then(
-      (querySnapshot) => {
-        const newData = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-       setpost(newData)
-       setLoading(false)
-      }
-    );
+  const getPosts = () => {
+    const PostCollectionRef = collection(db, "Posts");
+  
+    // Set up a real-time listener
+    const unsubscribe1 = onSnapshot(PostCollectionRef, (querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+  
+      setpost(newData);
+      console.log(newData)
+ setLoading(false)
+  
+    });
+  
+    // Clean up the listener when the component unmounts
+    return unsubscribe1;
   };
 
   useEffect(() => {
-    getPosts();
+        // Start the listener only once when the component mounts
+        const unsubscribe = getPosts();
+  
+        // Clean up the listener when the component unmounts
+        return () => {
+          unsubscribe();
+        };
   }, []);
+  
 
   // filter data according to side bar selection
   useEffect(() => {
@@ -61,17 +87,7 @@ export default function Browse({element}) {
     }
   }, [element, post, currentPage]);
 
-  const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
-    console.log(currentPage)
-  };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      console.log(currentPage)
-    }
-  };
 
   return (
     <div class="text-center p-10">

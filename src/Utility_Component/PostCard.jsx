@@ -8,6 +8,9 @@ import { db } from '../../firebase/firebase';
 import { signIn, useSession } from 'next-auth/react';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { onSnapshot } from 'firebase/firestore';
+import { MdDeleteForever } from "react-icons/md"
+import toast, { Toaster } from 'react-hot-toast';
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -88,11 +91,26 @@ const LikePost = async () => {
 
 };
 
-const deletePost = async () => {
+const deleteLike = async () => {
   await deleteDoc(
     doc(db, "Posts", element.id, "Likes", session.user.email)
   );
   setlikes(false);
+};
+
+const onDelete = async () => {
+  await deleteDoc(
+    doc(db, "Posts", element.id)
+  );
+  toast(`Deleted Post ${element.PostTitle} Successfully...`,
+  {
+    icon: '❎',
+    style: {
+      borderRadius: '10px',
+      background: '#333',
+      color: '#fff',
+    },
+  });
 };
 
   return (
@@ -136,12 +154,25 @@ href={{
     </div>
   </div>
   <div className='flex gap-4'>
+
+{session ? (
+      element.UserEmail == session.user?.email ? (
+        <div>
+     <MdDeleteForever className="w-8 h-8 text-white fill-white transform transition duration-150 hover:scale-125 hover:cursor-pointer"
+     onClick={onDelete}
+     />
+     </div>
+  ) : null
+):null}
+
+     
+  
     <p className='flex items-center font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>{getLikeNumber}</p>
    {session ? (<>
             {likes ? (
             <HeartIcon
               className="w-8 h-8 text-red-700 fill-red-700 transform transition duration-150 hover:scale-125"
-              onClick={deletePost}
+              onClick={deleteLike}
             />
           ) : (
             <HeartIcon
@@ -151,12 +182,13 @@ href={{
           )}
           </>):(<>
             <HeartIcon
-              className="w-6 h-6 transform transition duration-500 hover:scale-125 text-red-700 fill-red-700 cursor-not-allowed"
+             className="w-8 h-8 text-white transform transition duration-500 hover:scale-150"
               onClick={() => signIn()}
             />
           </>)}
   </div>
 </div>
+<Toaster />
 </div>
   )
 }
