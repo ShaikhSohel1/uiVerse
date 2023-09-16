@@ -117,7 +117,7 @@ const onDelete = async () => {
   return (
   <div>
     
-<div class="w-full rounded-lg shadow bg-[#2a303a] group/item "
+<div class="w-full rounded-lg shadow bg-[#26282B] group/item "
 >
 <Link
 href={{
@@ -172,18 +172,18 @@ href={{
    {session ? (<>
             {likes ? (
             <HeartIcon
-              className="w-8 h-8 text-red-700 fill-red-700 transform transition duration-150 hover:scale-125"
+              className="w-8 h-8 text-red-700 fill-red-700 transform transition duration-150 hover:scale-125 hover:cursor-pointer"
               onClick={deleteLike}
             />
           ) : (
             <HeartIcon
-              className="w-8 h-8 text-white transform transition duration-500 hover:scale-150"
+              className="w-8 h-8 text-white transform transition duration-500 hover:scale-150 hover:cursor-pointer"
               onClick={LikePost}
             />
           )}
           </>):(<>
             <HeartIcon
-             className="w-8 h-8 text-white transform transition duration-500 hover:scale-150"
+             className=" w-8 h-8 text-white  transform transition duration-500 hover:scale-150  cursor-pointer"
               onClick={() => signIn()}
             />
           </>)}

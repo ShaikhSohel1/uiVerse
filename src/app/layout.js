@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-[#161616] overflow-x-hidden">
+      <body className="bg-[#353941]  overflow-x-hidden">
         <AuthProvider>
           <NavBar  />
           {children}

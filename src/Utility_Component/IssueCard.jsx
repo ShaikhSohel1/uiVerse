@@ -126,10 +126,10 @@ export default function IssueCard({ issue, notify }) {
           </div>
 
           <button
-            className="font-bold text-xl mb-4 text-white cursor-default flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 w-fit"
+            className="font-bold text-xl mb-4 text-white cursor-pointer flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 w-fit"
             onClick={() => setOpen(true)}
           >
-            Save
+            View Issue
           </button>
         </div>
       </div>

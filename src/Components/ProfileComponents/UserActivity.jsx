@@ -102,7 +102,7 @@ const UserActivity = () => {
                 ? "bg-green-500"
                 : ""
             }`}
-            title={`Date: ${item.date}\nValue: ${item.value}`}
+            title={`Date: ${item.date}\nPosts: ${item.value}`}
           >
           </div>
         ))}

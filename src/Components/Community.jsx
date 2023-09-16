@@ -1,7 +1,7 @@
 "use client"
 import PostCard from '@/Utility_Component/PostCard'
 import React, { useEffect, useState } from 'react'
-import { addDoc, collection, doc, getDocs, onSnapshot, query, serverTimestamp, setDoc } from "firebase/firestore"; 
+import { addDoc, and, collection, doc, getDocs, limit, onSnapshot, query, serverTimestamp, setDoc, where } from "firebase/firestore"; 
 import {db} from '../../firebase/firebase'
 import { useSession } from 'next-auth/react';
 import SkeletonLoader from '@/Utility_Component/SkeletonLoader';
@@ -32,9 +32,9 @@ export default function Community() {
   // useEffect(() => {
   //   getPosts();
   // }, [db]);
-
   const getPosts = () => {
-    const PostCollectionRef = collection(db, "Posts");
+ 
+    const PostCollectionRef =  query(collection(db, "Posts"),where('Element_Type', 'not-in', ['Cards', 'Forms']),limit(12));
   
     // Set up a real-time listener
     const unsubscribe = onSnapshot(PostCollectionRef, (querySnapshot) => {
@@ -67,10 +67,10 @@ export default function Community() {
     // filter data according to side bar selection
     useEffect(() => {
   
-        const filteredData = post.filter(
-          (item) => (item.Element_Type != "Cards" && item.Element_Type != "Forms" )
-        );
-        setFilteredPost(filteredData);
+        // const filteredData = post.filter(
+        //   (item) => (item.Element_Type != "Cards" && item.Element_Type != "Forms" )
+        // );
+        setFilteredPost(post);
     }, [post]);
 
 

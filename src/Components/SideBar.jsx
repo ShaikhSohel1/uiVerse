@@ -48,7 +48,7 @@ const getvalue = (i) => {
               <li key={i}>
                 <div
                   
-                  className="flex items-center p-2 rounded-lg text-white hover:text-slate-800 hover:bg-gray-100 group cursor-default"
+                  className="flex items-center p-2 rounded-lg text-white hover:text-slate-800 hover:bg-gray-100 group cursor-pointer"
                   onClick={() => router.push(`/browse/${i.ElementName}`)}
                 >
                   <span>{i.ElementName}</span>
