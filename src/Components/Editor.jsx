@@ -30,9 +30,8 @@ export default function CustomEditor() {
   const [contribute,setContribute] = useState(false);
 const [contributersList, setcontributersList] = useState([])
 const [ContributeModel, setContributeModel] = useState(false)
-  const BodyStyle = ``
-  //  to combine htm css code into one document
-
+const currentDate = new Date();
+const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-${currentDate.getFullYear()}`
 
 
   const handleTabClick = (tab) => {
@@ -45,8 +44,25 @@ const [ContributeModel, setContributeModel] = useState(false)
   const [PostTitle, setPostTitle] = useState()
   const [Description, setDescription] = useState()
 
+  const onActivity = async () => {
+    const ActivityRef = doc(db, "Users", session.user?.email,"Activity", currentDateString);
+    const acctivitySnapshot = await getDoc(ActivityRef);
+    if (acctivitySnapshot.exists()) {
+      const activtyref1 = await updateDoc(doc(db, "Users", session.user?.email,"Activity", currentDateString), {
+        Activity: increment(1),
+        Date: serverTimestamp(),
+      });
+    }
+    else{
+      const activtyref2 = await setDoc(doc(db, "Users", session.user?.email, "Activity",currentDateString),{
+        Activity: 1,
+        Date: serverTimestamp()
+      }).then(data => console.log("success..."));
+    }
+  }
+
   const onSave = async () => {
-    if(!htmlCode && !cssCode)
+    if(!htmlCode)
     {
       toast('What About HTML & CSS?',
       {
@@ -83,6 +99,9 @@ const [ContributeModel, setContributeModel] = useState(false)
       timestamp: serverTimestamp()
     }).then(data => console.log("success..."));
 
+
+
+
     const userDocumentRef = doc(db, "Users", session.user?.email);
 
 // Check if the document exists before updating
@@ -94,8 +113,11 @@ if (userDocumentSnapshot.exists()) {
     timestamp: serverTimestamp(),
   });
 
+ onActivity();
+
   console.log("Document updated successfully.");
 } else {
+
   const docRef2 = await setDoc(doc(db, "Users", session.user?.email),{
     UserEmail: session.user?.email,
     UserImage:session.user?.image,
@@ -104,6 +126,15 @@ if (userDocumentSnapshot.exists()) {
     timestamp: serverTimestamp()
   }).then(data => console.log("success..."));
   console.log("Document does not exist.");
+
+  const docRef3 = await setDoc(doc(db, "Users", session.user?.email, "Activity",currentDateString),{
+    Activity: 1,
+    Date: serverTimestamp()
+  }).then(data => console.log("success..."));
+
+
+
+
 }
 
    
@@ -121,7 +152,7 @@ if (userDocumentSnapshot.exists()) {
   }
 
   const onContribute = async () => {
-    if(!htmlCode && !cssCode)
+    if(!htmlCode)
     {
       toast('What About HTML & CSS?',
       {
@@ -177,6 +208,7 @@ if (userDocumentSnapshot.exists()) {
         PostTitle: postdata.PostTitle,
         timestamp: serverTimestamp()
       }).then(data => console.log("success..."));
+      onActivity();
       toast('Contributed Successfully! Wait till Owner Review Your Contribution...',
       {
         icon: '✅',
@@ -198,7 +230,7 @@ if (userDocumentSnapshot.exists()) {
 
  // create on update functionality
   const onUpdate = async () => {
-    if(!htmlCode && !cssCode)
+    if(!htmlCode)
     {
       toast('What About HTML & CSS?',
       {
@@ -236,7 +268,7 @@ if (userDocumentSnapshot.exists()) {
         PostTitle: PostTitle,
         timestamp: serverTimestamp()
       }).then(data => console.log("success..."));
-
+      onActivity();
       toast('Updated Successfully...',
       {
         icon: '✅',
@@ -309,7 +341,6 @@ if (userDocumentSnapshot.exists()) {
         }
         ${cssCode}
       </style>
-      <script src="https://cdn.tailwindcss.com"></script>
       ${htmlCode}`);
   }, [id, htmlCode, cssCode]);
 

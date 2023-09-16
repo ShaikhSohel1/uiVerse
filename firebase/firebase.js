@@ -2,7 +2,7 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import {getFirestore} from "firebase/firestore";
 import {getStorage} from "firebase/storage";
 
-
+// main db
 const firebaseConfig = {
   apiKey: "AIzaSyCo-Guoq96PtWOeF3W6_aFqu6rEPo8Trws",
   authDomain: "uiverse-7e818.firebaseapp.com",
@@ -13,6 +13,7 @@ const firebaseConfig = {
   measurementId: "G-YNZJYT6V8L"
 };
 
+// test db
 // const firebaseConfig = {
 //   apiKey: "AIzaSyD39nVC-jmT6xadD-ynpoIcGOIQi3AYu8g",
 //   authDomain: "uiverse-2.firebaseapp.com",

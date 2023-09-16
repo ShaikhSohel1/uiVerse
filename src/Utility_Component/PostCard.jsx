@@ -42,6 +42,7 @@ export default function PostCard({element}) {
         }
         ${cssCode}
       </style>
+
       ${htmlCode}`);
   }, [htmlCode, cssCode]);
 
