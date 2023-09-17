@@ -75,8 +75,8 @@ export default function Community() {
 
 
   return (
-    <div class="text-center p-10">
-    <h1 class="text-4xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400 py-1">Magical Elements</h1>
+    <div className="text-center p-10">
+    <h1 className="text-4xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400 py-1">Magical Elements</h1>
     <div className='grid grid-cols-1 mt-10 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
     {/* {filteredPost.map((element) => (
       <PostCard 
@@ -92,7 +92,7 @@ export default function Community() {
 {loading ? (
   <>
   {loadingobj.map(i => (
-      <SkeletonLoader element="All"/>
+      <SkeletonLoader element="All" key={i}/>
   ))}
 
   </>

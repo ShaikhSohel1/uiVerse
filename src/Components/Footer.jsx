@@ -1,8 +1,44 @@
-import React from 'react';
+"use client"
+import LegalModel from '@/Utility_Component/LegalModel';
+import React, { useState } from 'react';
 import { BsInstagram, BsTwitter, BsGithub, BsDiscord } from 'react-icons/bs';
 import '../Style/socialButton.css';
 
 export default function Footer() {
+  const [open, setOpen] = useState(false)
+  const[desc, setDesc] = useState('')
+  const [title, setTitle] = useState('');
+
+  // create a objext of about legal and contact us
+  const about = {
+    title: 'About Us',
+    desc: 'uiVerse is a social media platform for developers and designers to share their work and interact with other developers and designers. We are a community of developers and designers who are passionate about what we do and want to share our work with the world. We hope you enjoy our platform and find it useful for your own projects!',
+  }
+
+  const legal = {
+    title: 'Legal',
+    desc: 'uiVerse is a social media platform for developers and designers to share their work and interact with other developers and designers. We are a community of developers and designers who are passionate about what we do and want to share our work with the world. We hope you enjoy our platform and find it useful for your own projects!',
+  }
+
+  const contact = {
+    title: 'Contact Us',
+    desc: 'uiVerse is a social media platform for developers and designers to share their work and interact with other developers and designers. We are a community of developers and designers who are passionate about what we do and want to share our work with the world. We hope you enjoy our platform and find it useful for your own projects!',
+  }
+
+  const policy = {
+    title: 'Privacy Policy',
+    desc: 'uiVerse is a social media platform for developers and designers to share their work and interact with other developers and designers. We are a community of developers and designers who are passionate about what we do and want to share our work with the world. We hope you enjoy our platform and find it useful for your own projects!',
+  }
+
+
+  const openModel = (desc, title) => {
+    setDesc(desc);
+    setTitle(title);
+    setOpen(true);
+   
+  }
+
+
   return (
     <div className="bg-[#26282B] text-gray-300">
       <div className="px-4 py-10 mx-auto max-w-screen-xl sm:max-w-2xl md:max-w-4xl lg:max-w-6xl">
@@ -18,7 +54,7 @@ uiVerse
             <ul className="mt-2 space-y-2">
               <li>
                 <a
-                  href="/"
+                 onClick={() => openModel(about.desc, about.title)}
                   className="hover:text-indigo-400 "
                 >
                   About Us
@@ -27,7 +63,7 @@ uiVerse
  
               <li>
                 <a
-                  href="/"
+       onClick={() => openModel(contact.desc, contact.title)}
                   className="hover:text-indigo-400"
                 >
                   Contact Us
@@ -79,7 +115,7 @@ uiVerse
             <ul className="mt-2 space-y-2">
               <li>
                 <a
-                  href="/"
+           onClick={() => openModel(policy.desc, policy.title)}
                   className="hover:text-indigo-400"
                 >
                   Privacy Policy
@@ -87,7 +123,7 @@ uiVerse
               </li>
               <li>
                 <a
-                  href="/"
+                onClick={() => openModel(legal.desc, legal.title)}
                   className="hover:text-indigo-400"
                 >
                   Terms of Service
@@ -120,6 +156,9 @@ uiVerse
           </div>
         </div>
       </div>
+      <LegalModel open={open} setOpen={setOpen} title = {title} desc= {desc}/>
     </div>
+
+    
   );
 }

@@ -13,9 +13,14 @@ import SaveContributeModel from '@/Utility_Component/SaveContributeModel';
 import Contributers from './Contributers';
 import ContributionModel from '@/Utility_Component/ContributersModel';
 import toast, { Toaster } from 'react-hot-toast';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { useRouter } from 'next/navigation';
+import DropDownButton from '@/Utility_Component/DropDownButton';
 
 
 export default function CustomEditor() {
+
+  const router  = useRouter();
   // get post from params
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
@@ -347,6 +352,13 @@ if (userDocumentSnapshot.exists()) {
 
   return (
     <>
+       <div className='flex justify-between px-5'>
+       <h1 className="font-bold text-xl mb-4 w-fit text-white cursor-default flex gap-3 items-center hover:bg-slate-600 px-6 py-3 rounded-lg hover:cursor-pointer"
+    onClick={() => router.back()}
+    ><AiOutlineArrowLeft /> Go Back</h1>
+<DropDownButton elements={elements} />
+  </div>
+     
     {postdata ? (
     <div className='flex justify-between'>
           <p className='text-3xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>
@@ -480,7 +492,7 @@ if (userDocumentSnapshot.exists()) {
  onClick={() => setContributeModel(true)}
  >
  {contributersList && contributersList.slice(0, 5).map((i) => (
-     <img className="w-10 h-10  mb-3 rounded-full shadow-lg" src={i.UserImage} alt="Bonnie image"/>
+     <img key={i} className="w-10 h-10  mb-3 rounded-full shadow-lg" src={i.UserImage} alt="Bonnie image"/>
  ))}
  
  </div>

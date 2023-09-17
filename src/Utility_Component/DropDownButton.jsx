@@ -1,3 +1,4 @@
+"use client"
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -34,9 +35,10 @@ export default function DropDownButton({elements}) {
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-slate-900 shadow-lg focus:outline-none text-slate-100">
           <div className="py-1">
             {elements.map((i) => (
-      <Menu.Item>
+      <Menu.Item       key={i}>
       {({ active }) => (
         <div
+  
           className="block px-4 py-2 text-sm text-slate-100 hover:bg-slate-700 cursor-pointer"
           onClick={() => router.push(`/browse/${i.ElementName}`)}
         >

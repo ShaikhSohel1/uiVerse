@@ -57,7 +57,7 @@ export default function UserPostSection() {
           <>
           {
             AllList.map(i => (
-              <SkeletonLoader element="All"/>
+              <SkeletonLoader element="All" key={i}/>
             ))
           }
           </>
@@ -81,7 +81,7 @@ export default function UserPostSection() {
         <>
         {
           AllList.map(i => (
-            <SkeletonLoader element="Cards"/>
+            <SkeletonLoader element="Cards" key={i}/>
           ))
         }
         </>
@@ -109,7 +109,7 @@ export default function UserPostSection() {
         <>
         {
           FormList.map(i => (
-            <SkeletonLoader element="Forms"/>
+            <SkeletonLoader element="Forms" key={i}/>
           ))
         }
         </>

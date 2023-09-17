@@ -62,6 +62,7 @@ export default function PostCard({element}) {
       // Check if the current user has liked the post
       const hasLiked = newData.some((like) => like.UserName === session?.user?.email);
       setlikes(hasLiked);
+      console.log(hasLiked)
     });
   
     // Clean up the listener when the component unmounts

@@ -7,7 +7,7 @@ import SideBar from '@/Components/SideBar'
 const page = ({params}) => {
 
 const  id = params.id
-console.log(id)
+
 
   return (
     <div className='grid grid-cols-1 lg:grid-cols-7 h-full'>
