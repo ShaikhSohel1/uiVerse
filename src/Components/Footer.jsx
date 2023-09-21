@@ -40,7 +40,7 @@ export default function Footer() {
 
 
   return (
-    <div className="bg-[#26282B] text-gray-300  ">
+    <div className="bg-[#26282B] text-gray-300 ">
       <div className="px-4 py-10 mx-auto max-w-screen-xl sm:max-w-2xl md:max-w-4xl lg:max-w-6xl bottom-0">
         <div className="flex flex-col justify-between sm:flex-row gap-6">
 

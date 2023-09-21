@@ -90,7 +90,7 @@ export default function Browse({element}) {
 
 
   return (
-    <div class="text-center p-10 h-screen">
+    <div class="text-center p-10  min-h-screen">
       <div className='flex justify-between'>
     <h1 class="font-bold text-4xl mb-4 text-white cursor-default">{element}</h1>
     <DropDownButton elements={elements} />
