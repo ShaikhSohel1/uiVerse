@@ -1,14 +1,15 @@
 import React from 'react'
 
-export default function ContributionCard() {
+export default function ContributionCard({TopContributers, i}) {
+  console.log(TopContributers.UserName)
   return (
-    <div className="w-full max-w-sm bg-transparent hover:bg-[#1C2128] rounded-lg shadow transition delay-100 ease-in-out cursor-pointer">
+    <div className="w-full max-w-sm bg-transparent hover:bg-[#161616] rounded-full shadow-lg transition delay-100 ease-in-out cursor-pointer">
     <div className="flex justify-end px-4 pt-4">
     </div>
     <div className="flex flex-col items-center">
-        <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src="https://lh3.googleusercontent.com/a/AAcHTtc7RNcq2U4s8U8vjfmyTooDTnIRywdi6qco2GM0ApFKQI4=s288-c-no" alt="Bonnie image"/>
-        <h5 className="mb-1 text-xl font-medium  text-white"><span>#1</span> Bonnie Green</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
+        <img className="w-14 h-14  mb-3 rounded-full shadow-lg" src={TopContributers.UserImage} alt="Bonnie image"/>
+        <h5 className="mb-1 text-xl font-medium  text-white"><span className='text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>{i}</span> {TopContributers.UserName}</h5>
+        <span className="text-md text-gray-500 dark:text-gray-400">Posts: {TopContributers.NoOfPosts}</span>
     </div>
 </div>
   )

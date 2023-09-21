@@ -3,17 +3,17 @@ import React from 'react'
 
 export default function Banner() {
   return (
-    <section class="bg-transparent">
-    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-        <div class="mr-auto place-self-center lg:col-span-7">
-            <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-white ">Open-Source UI elements for any project</h1>
-            <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 font-medium">Create, share, and use <span className='text-violet-600'>beautiful</span> custom elements made with CSS or Tailwind.</p>
-            <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 hover:bg-[#1C2128]" >
+    <section className="bg-transparent ">
+    <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+        <div className="mr-auto place-self-center lg:col-span-7">
+            <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl text-white ">Open-Source UI elements for any project</h1>
+            <p className="max-w-2xl mb-6 text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 font-medium">Create, share, and use <span className='text-violet-600'>beautiful</span> custom elements made with CSS.</p>
+            <a href="#" className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 hover:bg-[#1C2128]" >
                 Get started
-                <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <svg className="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
             </a>
         </div>
-        <div class=" lg:mt-0 lg:col-span-5 lg:flex mt-8 flex items-center justify-center">
+        <div className=" lg:mt-0 lg:col-span-5 lg:flex mt-8 flex items-center justify-center">
             <BannerImg />
         </div>                
     </div>
@@ -94,13 +94,13 @@ const BannerImg = () => {
     filter: blur(12px);
   }`
   return(
-    <div class="pyramid-loader">
-  <div class="wrapper">
-    <span class="side side1"></span>
-    <span class="side side2"></span>
-    <span class="side side3"></span>
-    <span class="side side4"></span>
-    <span class="shadow"></span>
+    <div className="pyramid-loader">
+  <div className="wrapper">
+    <span className="side side1"></span>
+    <span className="side side2"></span>
+    <span className="side side3"></span>
+    <span className="side side4"></span>
+    <span className="shadow"></span>
   </div>  
   <style>{cssCode}</style>
 </div>
