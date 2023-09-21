@@ -361,10 +361,10 @@ if (userDocumentSnapshot.exists()) {
      
     {postdata ? (
     <div className='flex justify-between'>
-          <p className='text-3xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>
+          <p className='sm:text-3xl text-sm px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>
   {postdata && postdata.PostTitle}
 </p>
-      <p className='text-3xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>
+      <p className='sm:text-3xl px-10 text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400'>
   {postdata && `#${postdata.Element_Type}`}
 </p>
       </div>

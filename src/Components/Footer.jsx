@@ -40,15 +40,15 @@ export default function Footer() {
 
 
   return (
-    <div className="bg-[#26282B] text-gray-300">
-      <div className="px-4 py-10 mx-auto max-w-screen-xl sm:max-w-2xl md:max-w-4xl lg:max-w-6xl">
+    <div className="bg-[#26282B] text-gray-300  ">
+      <div className="px-4 py-10 mx-auto max-w-screen-xl sm:max-w-2xl md:max-w-4xl lg:max-w-6xl bottom-0">
         <div className="flex flex-col justify-between sm:flex-row gap-6">
 
 
 <div className='text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 via-purple-700 to-teal-400 underline '>
 uiVerse
 </div>
-        <div className=''>
+        <div className='cursor-pointer'>
           
             <h3 className="text-xl font-semibold">About</h3>
             <ul className="mt-2 space-y-2">
@@ -110,7 +110,7 @@ uiVerse
             </ul>
           </div> */}
 
-          <div className="mb-4 md:mb-0">
+          <div className="mb-4 md:mb-0 cursor-pointer">
             <h3 className="text-xl font-semibold">Legal</h3>
             <ul className="mt-2 space-y-2">
               <li>
@@ -137,7 +137,7 @@ uiVerse
 
         <div className="flex justify-between items-center mt-8">
           <p className="text-sm">
-            © {new Date().getFullYear()} Uiverse.io. All rights reserved.
+            © {new Date().getFullYear()} Uiverse.tech. All rights reserved.
           </p>
 
           <div className="flex space-x-4">

@@ -118,7 +118,7 @@ const onDelete = async () => {
   return (
   <div>
     
-<div class="w-full rounded-lg shadow bg-[#26282B] group/item "
+<div class="w-full rounded-lg shadow bg-[#0c05054f] group/item text-[#AED2FF] "
 >
 <Link
 href={{

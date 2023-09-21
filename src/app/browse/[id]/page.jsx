@@ -10,7 +10,7 @@ const  id = params.id
 
 
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-7 h-full'>
+    <div className='grid grid-cols-1 lg:grid-cols-7 '>
     <div className='w-full'>
     <SideBar />
     </div>
