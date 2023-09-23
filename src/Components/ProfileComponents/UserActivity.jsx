@@ -176,14 +176,14 @@ const UserActivity = () => {
   //   { date: '2016/05/08', count:32 },
   // ];
   return(
-    <div className="p-8 flex flex-col items-center justify-center  ">
+    <div className="p-8 flex flex-col items-center justify-center w-full ">
        <div className="text-4xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400 py-1 mt-4 text-center">
         Activity
        </div>
        <div className="text-md px-10 font-medium text-white py-1 mt-4 text-center cursor-default mb-4">
          Hover to See Your Activity
        </div>
-    <div className="overflow-auto scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-slate-700  scrollbar-thumb-opacity-50 scrollbar-track-opacity-50">
+    <div className="overflow-auto w-full xl:ml-56 scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-slate-700  scrollbar-thumb-opacity-50 scrollbar-track-opacity-50">
       {value.length != 0 && (<HeatMap
         value={value}
         width={1500}
@@ -192,7 +192,6 @@ const UserActivity = () => {
         style={{ color: '#FFFFFF', '--rhm-rect-active': 'green' }}
         startDate={startDate}
         endDate={endDate}
-
         panelColors={{
           0: '#EBEDF0',
           2: '#C6E48B',

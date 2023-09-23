@@ -8,6 +8,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  getDoc,
   query,
   serverTimestamp,
   setDoc,
@@ -16,9 +17,11 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import toast, { Toaster } from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 export default function IssueCard({ issue, notify }) {
-  console.log(issue.id);
+  const { data: session } = useSession();
+
   const [open, setOpen] = useState(false);
 
   const mergeData = async () => {
@@ -28,6 +31,35 @@ export default function IssueCard({ issue, notify }) {
       LastUpdated: serverTimestamp(),
     }).then((data) => console.log("Merge success..."));
 
+    // notification
+    const userDocumentRef = doc(db, "Users", issue.UserEmail);
+
+    // Check if the document exists before updating
+    const userDocumentSnapshot = await getDoc(userDocumentRef);
+    if (userDocumentSnapshot.exists()) {
+      // Document exists, so you can update it
+      const docRef1 = await addDoc(
+        collection(db, "Users", issue.UserEmail, "Notifications"),
+        {
+          notiification: `Your Contribution has been merged of Post ${issue.PostTitle} By ${session.user?.name}`,
+
+          timestamp: serverTimestamp(),
+        }
+      );
+
+      console.log("Document updated successfully.");
+    } else {
+      const docRef1 = await addDoc(
+        collection(db, "Users", issue.UserEmail, "Notifications"),
+        {
+          notiification: `Your Contribution has been merged of Post ${issue.PostTitle} By ${session.user?.name}`,
+
+          timestamp: serverTimestamp(),
+        }
+      );
+    }
+
+    // deleting Contribution doc adter merge
     const q = query(
       collection(db, "Posts", issue.PostId, "Contributers"),
       where("UserEmail", "==", issue.UserEmail)
@@ -73,37 +105,35 @@ export default function IssueCard({ issue, notify }) {
     }
 
     console.log("mergeData");
+  };
 
-    // For notification refer from here
-
-    const userDocumentRef = doc(db, "Users", session.user?.email);
+  const DeclineData = async () => {
+    const userDocumentRef = doc(db, "Users", issue.UserEmail);
 
     // Check if the document exists before updating
     const userDocumentSnapshot = await getDoc(userDocumentRef);
     if (userDocumentSnapshot.exists()) {
       // Document exists, so you can update it
-      const docRef1 = await setDoc(doc(db, "Users", session.user?.email, "Notifications"), {
-        notiification: `Your Contribution has been merged of Post ${issue.PostTitle} By ${issue.ownerName}`,
+      const docRef1 = await addDoc(
+        collection(db, "Users", issue.UserEmail, "Notifications"),
+        {
+          notiification: `Your Contribution has been Declined of Post ${issue.PostTitle} By ${session.user?.name}`,
 
-        timestamp: serverTimestamp(),
-      });
-    
+          timestamp: serverTimestamp(),
+        }
+      );
 
-    
       console.log("Document updated successfully.");
     } else {
-    
-      const docRef2 = await setDoc(doc(db, "Users", session.user?.email),{
-        UserEmail: session.user?.email,
-        UserImage:session.user?.image,
-        UserName: session.user?.name,
-        NoOfPosts: 1,
-        timestamp: serverTimestamp()
-      }).then(data => console.log("success..."));
-      console.log("Document does not exist.");
-  };
+      const docRef1 = await addDoc(
+        collection(db, "Users", issue.UserEmail, "Notifications"),
+        {
+          notiification: `Your Contribution has been Declined of Post ${issue.PostTitle} By ${session.user?.name}`,
 
-  const DeclineData = async () => {
+          timestamp: serverTimestamp(),
+        }
+      );
+    }
 
     // Wait for the toast to complete (it will automatically disappear)
 
@@ -111,9 +141,9 @@ export default function IssueCard({ issue, notify }) {
     notify();
 
     console.log("DeclineData");
+
+
   };
-
-
 
   return (
     <div className="flex flex-col bg-[#2a303a] rounded-lg sm:flex-row p-5">
