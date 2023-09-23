@@ -10,6 +10,7 @@ import { HeartIcon } from '@heroicons/react/24/outline';
 import { onSnapshot } from 'firebase/firestore';
 import { MdDeleteForever } from "react-icons/md"
 import toast, { Toaster } from 'react-hot-toast';
+import OnDeleteModel from './onDeleteModel';
 
 
 function classNames(...classes) {
@@ -29,6 +30,12 @@ export default function PostCard({element}) {
 
   const active = element.Element_Type == 'Cards';
   const activefroms = element.Element_Type == 'Forms';
+ 
+  // delete popUp
+  const [deleteOpen , setdeleteOpen] = useState(false);
+
+
+
   useEffect(() => {
     // Combine HTML and CSS for live preview
   setPreviewCode(`
@@ -101,6 +108,7 @@ const deleteLike = async () => {
 };
 
 const onDelete = async () => {
+
   await deleteDoc(
     doc(db, "Posts", element.id)
   );
@@ -161,7 +169,7 @@ href={{
       element.UserEmail == session.user?.email ? (
         <div>
      <MdDeleteForever className="w-8 h-8 text-white fill-white transform transition duration-150 hover:scale-125 hover:cursor-pointer"
-     onClick={onDelete}
+     onClick={() => setdeleteOpen(true)}
      />
      </div>
   ) : null
@@ -191,6 +199,13 @@ href={{
   </div>
 </div>
 <Toaster />
+
+{
+  deleteOpen? (
+    <OnDeleteModel open={deleteOpen} setOpen={setdeleteOpen} onDelete={onDelete}/>
+  ): null
+}
+
 </div>
   )
 }

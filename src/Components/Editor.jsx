@@ -406,7 +406,7 @@ if (userDocumentSnapshot.exists()) {
         <div>
           {activeTab === 'html' ? (
             <Editor
-              height="74.1vh"
+              height="74.9vh"
               language="html"
               value={htmlCode}
               theme="vs-dark"
@@ -420,7 +420,7 @@ if (userDocumentSnapshot.exists()) {
             />
           ) : (
             <Editor
-              height="74.1vh"
+              height="74.9vh"
               language="css"
               value={cssCode}
               theme="vs-dark"

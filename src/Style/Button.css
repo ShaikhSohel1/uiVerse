@@ -37,6 +37,7 @@
   }
   
   .sparkle path {
+   
     color: hsl(0 0% calc((var(--active, 0) * 70%) + var(--base)));
     transform-box: fill-box;
     transform-origin: center;

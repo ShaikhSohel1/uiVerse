@@ -73,6 +73,34 @@ export default function IssueCard({ issue, notify }) {
     }
 
     console.log("mergeData");
+
+    // For notification refer from here
+
+    const userDocumentRef = doc(db, "Users", session.user?.email);
+
+    // Check if the document exists before updating
+    const userDocumentSnapshot = await getDoc(userDocumentRef);
+    if (userDocumentSnapshot.exists()) {
+      // Document exists, so you can update it
+      const docRef1 = await setDoc(doc(db, "Users", session.user?.email, "Notifications"), {
+        notiification: `Your Contribution has been merged of Post ${issue.PostTitle} By ${issue.ownerName}`,
+
+        timestamp: serverTimestamp(),
+      });
+    
+
+    
+      console.log("Document updated successfully.");
+    } else {
+    
+      const docRef2 = await setDoc(doc(db, "Users", session.user?.email),{
+        UserEmail: session.user?.email,
+        UserImage:session.user?.image,
+        UserName: session.user?.name,
+        NoOfPosts: 1,
+        timestamp: serverTimestamp()
+      }).then(data => console.log("success..."));
+      console.log("Document does not exist.");
   };
 
   const DeclineData = async () => {
@@ -84,6 +112,8 @@ export default function IssueCard({ issue, notify }) {
 
     console.log("DeclineData");
   };
+
+
 
   return (
     <div className="flex flex-col bg-[#2a303a] rounded-lg sm:flex-row p-5">
