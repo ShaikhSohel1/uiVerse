@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import elements from './ElementData'
 
-export default function OnDeleteModel({open, setOpen,onDelete}) {
+const OnDeleteModel =({open, setOpen,onDelete}) => {
   const cancelButtonRef = useRef(null)
 
 
@@ -101,4 +101,6 @@ export default function OnDeleteModel({open, setOpen,onDelete}) {
       </Dialog>
     </Transition.Root>
   )
-}
+};
+
+export default OnDeleteModel;

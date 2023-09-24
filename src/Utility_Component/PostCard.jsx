@@ -9,7 +9,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import { onSnapshot } from 'firebase/firestore';
 import { MdDeleteForever } from "react-icons/md"
-import { OnDeleteModel }from './OnDeleteModel';
+import OnDeleteModel from './OnDeleteModel';
 import toast, { Toaster } from 'react-hot-toast';
 
 
