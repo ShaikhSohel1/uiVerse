@@ -64,6 +64,34 @@ const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-
         Date: serverTimestamp()
       }).then(data => console.log("success..."));
     }
+
+    // notification
+    const userDocumentRef = doc(db, "Users", postdata.UserEmail);
+
+    // Check if the document exists before updating
+    const userDocumentSnapshot = await getDoc(userDocumentRef);
+    if (userDocumentSnapshot.exists()) {
+      // Document exists, so you can update it
+      const docRef1 = await addDoc(
+        collection(db, "Users", postdata.UserEmail, "Notifications"),
+        {
+          notiification: ` Your Post ${postdata.PostTitle} has been Contributed by ${session.user?.name}`,
+
+          timestamp: serverTimestamp(),
+        }
+      );
+
+      console.log("Document updated successfully.");
+    } else {
+      const docRef1 = await addDoc(
+        collection(db, "Users", postdata.UserEmail, "Notifications"),
+        {
+          notiification: `Your Post ${postdata.PostTitle} has been Contributed by ${session.user?.name}`,
+
+          timestamp: serverTimestamp(),
+        }
+      );
+    }
   }
 
   const onSave = async () => {
@@ -214,6 +242,7 @@ if (userDocumentSnapshot.exists()) {
         timestamp: serverTimestamp()
       }).then(data => console.log("success..."));
       onActivity();
+
       toast('Contributed Successfully! Wait till Owner Review Your Contribution...',
       {
         icon: '✅',
@@ -406,7 +435,7 @@ if (userDocumentSnapshot.exists()) {
         <div>
           {activeTab === 'html' ? (
             <Editor
-              height="74.1vh"
+              height="74.9vh"
               language="html"
               value={htmlCode}
               theme="vs-dark"
@@ -420,7 +449,7 @@ if (userDocumentSnapshot.exists()) {
             />
           ) : (
             <Editor
-              height="74.1vh"
+              height="74.9vh"
               language="css"
               value={cssCode}
               theme="vs-dark"

@@ -9,6 +9,7 @@ import Logo from '../../public/uiVerseLogo.png'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import ButtonLogo from '@/Utility_Component/ButtonLogo'
+import NotificationModel from '@/Utility_Component/NotificationModel'
 
 
 const navigation = [
@@ -85,7 +86,10 @@ export default function NameNavBar() {
                 <Button />
                 {status==='authenticated' ? (
    <Menu as="div" className="relative ml-3">
-   <div>
+   <div className='flex  gap-5 items-center'>
+      <div >
+        <NotificationModel />
+      </div>
      <Menu.Button className="relative flex rounded-full mt-[5px] bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
        <span className="absolute -inset-1.5" />
        <span className="sr-only">Open user menu</span>
