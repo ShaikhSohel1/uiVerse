@@ -41,7 +41,7 @@ export default function IssueCard({ issue, notify }) {
       const docRef1 = await addDoc(
         collection(db, "Users", issue.UserEmail, "Notifications"),
         {
-          notiification: `Your Contribution has been merged of Post ${issue.PostTitle} By ${session.user?.name}`,
+          notiification: `🤝 Your Contribution has been merged of Post ${issue.PostTitle} By ${session.user?.name}`,
 
           timestamp: serverTimestamp(),
         }
@@ -52,7 +52,7 @@ export default function IssueCard({ issue, notify }) {
       const docRef1 = await addDoc(
         collection(db, "Users", issue.UserEmail, "Notifications"),
         {
-          notiification: `Your Contribution has been merged of Post ${issue.PostTitle} By ${session.user?.name}`,
+          notiification: `🤝 Your Contribution has been merged of Post ${issue.PostTitle} By ${session.user?.name}`,
 
           timestamp: serverTimestamp(),
         }
@@ -117,7 +117,7 @@ export default function IssueCard({ issue, notify }) {
       const docRef1 = await addDoc(
         collection(db, "Users", issue.UserEmail, "Notifications"),
         {
-          notiification: `Your Contribution has been Declined of Post ${issue.PostTitle} By ${session.user?.name}`,
+          notiification: `👎 Your Contribution has been Declined of Post ${issue.PostTitle} By ${session.user?.name}`,
 
           timestamp: serverTimestamp(),
         }
@@ -128,7 +128,7 @@ export default function IssueCard({ issue, notify }) {
       const docRef1 = await addDoc(
         collection(db, "Users", issue.UserEmail, "Notifications"),
         {
-          notiification: `Your Contribution has been Declined of Post ${issue.PostTitle} By ${session.user?.name}`,
+          notiification: `👎 Your Contribution has been Declined of Post ${issue.PostTitle} By ${session.user?.name}`,
 
           timestamp: serverTimestamp(),
         }

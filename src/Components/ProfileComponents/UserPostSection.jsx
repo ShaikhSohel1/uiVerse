@@ -126,6 +126,37 @@ export default function UserPostSection() {
        
 
       </div>
+
+
+
+      {/* pending post */}
+
+      {/* <div className='text-2xl px-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-cyan-400 mt-10'>Yet To Be Accept By Admin</div>
+
+<div className="grid grid-cols-1 mt-10 gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+
+
+{loading ? (
+  <>
+  {
+    FormList.map(i => (
+      <SkeletonLoader element="Forms" key={i}/>
+    ))
+  }
+  </>
+) : (
+<>
+{filteredPost.map((element) => {
+  
+  if( element.Element_Type == "Forms")
+  return <PostCard key={element.id} element={element} />
+    })}
+</>
+)}
+
+ 
+
+</div> */}
     </div>
   );
 }
