@@ -75,7 +75,7 @@ const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-
       const docRef1 = await addDoc(
         collection(db, "Users", postdata.UserEmail, "Notifications"),
         {
-          notiification: ` Your Post ${postdata.PostTitle} has been Contributed by ${session.user?.name}`,
+          notiification: `📧 Your Post ${postdata.PostTitle} has been Contributed by ${session.user?.name}`,
 
           timestamp: serverTimestamp(),
         }
@@ -86,7 +86,7 @@ const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-
       const docRef1 = await addDoc(
         collection(db, "Users", postdata.UserEmail, "Notifications"),
         {
-          notiification: `Your Post ${postdata.PostTitle} has been Contributed by ${session.user?.name}`,
+          notiification: ` 📧 Your Post ${postdata.PostTitle} has been Contributed by ${session.user?.name}`,
 
           timestamp: serverTimestamp(),
         }
@@ -94,6 +94,8 @@ const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-
     }
   }
 
+
+  // on Save Post
   const onSave = async () => {
     if(!htmlCode)
     {
@@ -121,7 +123,7 @@ const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-
       });
       return
     }
-    const docRef = await addDoc(collection(db, "Posts"),{
+    const docRef = await addDoc(collection(db, "Review"),{
       UserEmail: session.user?.email,
       UserImage:session.user?.image,
       userName: session.user?.name,
@@ -141,24 +143,38 @@ const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-
 const userDocumentSnapshot = await getDoc(userDocumentRef);
 if (userDocumentSnapshot.exists()) {
   // Document exists, so you can update it
-  const docRef1 = await updateDoc(doc(db, "Users", session.user?.email), {
-    NoOfPosts: increment(1),
-    timestamp: serverTimestamp(),
-  });
+  // const docRef1 = await updateDoc(doc(db, "Users", session.user?.email), {
+  //   NoOfPosts: increment(1),
+  //   timestamp: serverTimestamp(),
+  // });
 
- onActivity();
+//  onActivity();
+const ActivityRef = doc(db, "Users", session.user?.email,"Activity", currentDateString);
+    const acctivitySnapshot = await getDoc(ActivityRef);
+    if (acctivitySnapshot.exists()) {
+      const activtyref1 = await updateDoc(doc(db, "Users", session.user?.email,"Activity", currentDateString), {
+        Activity: increment(1),
+        Date: serverTimestamp(),
+      });
+    }
+    else{
+      const activtyref2 = await setDoc(doc(db, "Users", session.user?.email, "Activity",currentDateString),{
+        Activity: 1,
+        Date: serverTimestamp()
+      }).then(data => console.log("success..."));
+    }
 
   console.log("Document updated successfully.");
 } else {
 
-  const docRef2 = await setDoc(doc(db, "Users", session.user?.email),{
-    UserEmail: session.user?.email,
-    UserImage:session.user?.image,
-    UserName: session.user?.name,
-    NoOfPosts: 1,
-    timestamp: serverTimestamp()
-  }).then(data => console.log("success..."));
-  console.log("Document does not exist.");
+  // const docRef2 = await setDoc(doc(db, "Users", session.user?.email),{
+  //   UserEmail: session.user?.email,
+  //   UserImage:session.user?.image,
+  //   UserName: session.user?.name,
+  //   NoOfPosts: 1,
+  //   timestamp: serverTimestamp()
+  // }).then(data => console.log("success..."));
+  // console.log("Document does not exist.");
 
   const docRef3 = await setDoc(doc(db, "Users", session.user?.email, "Activity",currentDateString),{
     Activity: 1,
@@ -171,7 +187,7 @@ if (userDocumentSnapshot.exists()) {
 }
 
    
-    toast('Saved Successfully...',
+    toast('Post Successfully Submitted For Review, Wait For Approval',
     {
       icon: '✅',
       style: {
@@ -302,7 +318,25 @@ if (userDocumentSnapshot.exists()) {
         PostTitle: PostTitle,
         timestamp: serverTimestamp()
       }).then(data => console.log("success..."));
-      onActivity();
+
+
+      // onActivity();
+      const ActivityRef = doc(db, "Users", session.user?.email,"Activity", currentDateString);
+      const acctivitySnapshot = await getDoc(ActivityRef);
+      if (acctivitySnapshot.exists()) {
+        const activtyref1 = await updateDoc(doc(db, "Users", session.user?.email,"Activity", currentDateString), {
+          Activity: increment(1),
+          Date: serverTimestamp(),
+        });
+      }
+      else{
+        const activtyref2 = await setDoc(doc(db, "Users", session.user?.email, "Activity",currentDateString),{
+          Activity: 1,
+          Date: serverTimestamp()
+        }).then(data => console.log("success..."));
+      }
+
+
       toast('Updated Successfully...',
       {
         icon: '✅',
@@ -499,7 +533,7 @@ if (userDocumentSnapshot.exists()) {
               ) : (
                 <button className="font-bold text-xl mb-4 text-white cursor-pointer flex gap-3 items-center bg-[#1e1e1e] hover:bg-neutral-900 px-6 py-3 rounded-lg mt-6 mx-10"
                onClick={() => setOpen(true)}
-               >Save</button> 
+               >Submit For Review</button> 
               )}
               </>
       ): (
