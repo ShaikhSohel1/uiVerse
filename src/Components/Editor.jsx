@@ -16,6 +16,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 import DropDownButton from '@/Utility_Component/DropDownButton';
+import { useStyleRegistry } from 'styled-jsx';
 
 
 export default function CustomEditor() {
@@ -37,7 +38,8 @@ const [contributersList, setcontributersList] = useState([])
 const [ContributeModel, setContributeModel] = useState(false)
 const currentDate = new Date();
 const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-${currentDate.getFullYear()}`
-
+const [Tailwind, setTailwind] = useState(false)
+const [tailwinddb, settailwinddb] = useState(false)
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -131,6 +133,7 @@ const currentDateString = `${currentDate.getDate()}-${currentDate.getMonth()+1}-
       CssCode: cssCode,
       Element_Type: elementType,
       PostTitle: PostTitle,
+      Tailwind: Tailwind,
       timestamp: serverTimestamp()
     }).then(data => console.log("success..."));
 
@@ -362,6 +365,8 @@ const ActivityRef = doc(db, "Users", session.user?.email,"Activity", currentDate
       (querySnapshot) => {
         const newData = querySnapshot.data();
        setpostdata(newData)
+      //  settailwinddb(newData.Tailwind)
+       setTailwind(newData.Tailwind)
        setHtmlCode(newData.HtmlCode)
        setCssCode(newData.CssCode)
        setPostTitle(newData.PostTitle)
@@ -390,6 +395,7 @@ const ActivityRef = doc(db, "Users", session.user?.email,"Activity", currentDate
       setHtmlCode('');
       setCssCode('');
       setpostdata();
+      setTailwind(false)
       setcontributersList([]);
     }
    
@@ -409,18 +415,39 @@ const ActivityRef = doc(db, "Users", session.user?.email,"Activity", currentDate
         }
         ${cssCode}
       </style>
+     <head>
+     ${Tailwind ? '<script src="https://cdn.tailwindcss.com"></script>': ''}
+     </head>
       ${htmlCode}`);
-  }, [id, htmlCode, cssCode]);
+  }, [id, htmlCode, cssCode,Tailwind]);
 
 
   return (
     <>
+
+
        <div className='flex justify-between px-5'>
        <h1 className="font-bold text-xl mb-4 w-fit text-white cursor-default flex gap-3 items-center hover:bg-slate-600 px-6 py-3 rounded-lg hover:cursor-pointer"
     onClick={() => router.back()}
     ><AiOutlineArrowLeft /> Go Back</h1>
 <DropDownButton elements={elements} />
   </div>
+
+
+   {/* Tailwind Toggle */}
+   {!id ? (
+    <label class="relative inline-flex items-center cursor-pointer mx-6">
+    <input type="checkbox" value="" class="sr-only peer" checked={Tailwind} onClick={() => setTailwind(!Tailwind)}/>
+    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 flex gap-2">
+      <img src='data:image/png;base64,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'
+      alt='Tailwind'
+      className='w-5 h-5 rounded-full '
+      />
+      Tailwind</span>
+  </label>
+    ):null}
+
      
     {postdata ? (
     <div className='flex justify-between'>

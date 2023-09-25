@@ -47,7 +47,10 @@ export default function Footer() {
 
 <div className='text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-emerald-500 via-purple-700 to-teal-400 underline '>
 uiVerse
+
+
 </div>
+
         <div className='cursor-pointer'>
           
             <h3 className="text-xl font-semibold">About</h3>
@@ -130,6 +133,35 @@ uiVerse
                 </a>
               </li>
             </ul>
+          </div>
+
+
+          <div>
+          <div className='gap-3'>
+          <div className='text-2xl'>Made By</div>
+          <div className='text-white text-sm flex items-center gap-3 mt-2'>          
+  <img src='https://avatars.githubusercontent.com/u/87869024?v=4' className='h-8 w-8 rounded-full'/>
+  <p>Vivek Gunjal</p>
+  <a href="/" className="text-gray-300 hover:text-indigo-400">
+              <BsTwitter />
+            </a>
+            <a href="https://github.com/Vivekgunjal" target='_blank' className="text-gray-300 hover:text-indigo-400">
+              <BsGithub />
+            </a>
+</div>
+
+<div className='text-white text-sm flex items-center gap-3 mt-4'>
+  <img src='https://avatars.githubusercontent.com/u/98222121?v=4' className='h-8 w-8 rounded-full'/>
+  <p>Sohel Shaikh</p>
+  <a href="/" className="text-gray-300 hover:text-indigo-400">
+              <BsTwitter />
+            </a>
+            <a href="https://github.com/ShaikhSohel1" target='_blank' className="text-gray-300 hover:text-indigo-400">
+              <BsGithub />
+            </a>
+</div>
+
+</div>
           </div>
 
           

@@ -49,7 +49,9 @@ export default function PostCard({element}) {
         }
         ${cssCode}
       </style>
-
+      <head>
+      ${element.Tailwind ? '<script src="https://cdn.tailwindcss.com"></script>': ''}
+      </head>
       ${htmlCode}`);
   }, [htmlCode, cssCode]);
 
@@ -145,8 +147,22 @@ href={{
     // className='min-h-[25rem] max-h-[50rem]'
   ></iframe>
   {/* {onHover ? (  */}
+
+{element.Tailwind ? (
+  <div className='relative -inset-y-[16em] -inset-x-[0.5em] shadow-lg'>
+  <div className='box-shadow-gradient'>
+  <img src='https://shadowblood.gallerycdn.vsassets.io/extensions/shadowblood/tailwind-moon/3.0.2/1673948732518/Microsoft.VisualStudio.Services.Icons.Default'
+  className='w-10 h-10 rounded-full top-0 left-7 absolute '
+  alt='Tailwind'
+/>
+</div>
+</div>
+):null}
+
+
+
   <span className="relative -inset-y-16 invisible group/edit group-hover/item:visible">
-    <center><span className='bg-violet-500 p-3 rounded-lg text-white'>{"</>"}Get Code</span></center>
+    <center><span className='bg-violet-500 p-3 rounded-lg text-white '>{"</>"}Get Code</span></center>
         
       </span>
      
